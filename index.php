@@ -20,7 +20,7 @@
 		<li><a href="about.php">About</a></li>
 		<li><a href="contact.php">Contact</a></li>
 		<li id="lg-bag"><a href="cart.php"><i class="fa fa-shopping-bag"></i></a></li>
-		<li id="lg-bag"><a href="login.php"><i class="fa fa-user-plus"></i></a></li>
+		<li id="lg-bag"><a href="login_form.php"><i class="fa fa-user-plus"></i></a></li>
 		<a href="#" id="close"><i class="fa fa-times"></i></a>
 		<!--adding logout icon-->
 		<li id="user-info">
@@ -424,5 +424,19 @@
 	</div>
   </footer>
   <script src="script.js"></script>
+  <script>
+	//check the user name parameter to display the username and logout button
+    window.onload = function() {
+        var urlParams = new URLSearchParams(window.location.search);
+        var username = urlParams.get('username');
+        if (username) {
+			//if it finds update the user-info element
+            var userInfo = document.getElementById('user-info');
+            userInfo.innerHTML = '<a href="#"><i class="fa fa-user"></i> ' + username + '</a>' +
+                                 '<a href="logout.php"><i class="fa fa-sign-out"></i> Logout</a>';
+            userInfo.style.display = 'block';
+        }
+    }
+</script>
   </body>
 </html>
