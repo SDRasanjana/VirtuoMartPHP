@@ -14,18 +14,18 @@
     <a href="#"><img src="img/logo.jpg" class="logo" alt="logo"</a> 
 	<div>
 	 <ul id="navbar">
-	    <li><a href="index.html">Home</a></li>
-		<li><a class="active" href="shop.html">Shop</a></li>
-		<li><a href="blog.html">Blog</a></li>
-		<li><a href="about.html">About</a></li>
-		<li><a href="contact.html">Contact</a></li>
-		<li id="lg-bag"><a href="cart.html"><i class="fa fa-shopping-bag"></i></a></li>
+	    <li><a href="index.php">Home</a></li>
+		<li><a class="active" href="shop.php">Shop</a></li>
+		<li><a href="blog.php">Blog</a></li>
+		<li><a href="about.php">About</a></li>
+		<li><a href="contact.php">Contact</a></li>
+		<li id="lg-bag"><a href="cart.php"><i class="fa fa-shopping-bag"></i></a></li>
 		<a href="#" id="close"><i class="fa fa-times"></i></a>
 		
 	 </ul>
 	</div>
 	<div id="mobile">
-	   <a href="cart.html"><i class="fa fa-shopping-bag"></i></a>
+	   <a href="cart.php"><i class="fa fa-shopping-bag"></i></a>
 	   <i id="bar" class="fa fa-outdent"></i>
 	</div>
   </section>

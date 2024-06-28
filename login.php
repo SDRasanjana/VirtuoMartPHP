@@ -31,6 +31,11 @@ class user{
     public function __construct($db){
         $this->db = $db;
     }
+<<<<<<< admin-registration-login
+
+    //check whether the user details are correct or not
+=======
+>>>>>>> main
     public function register($username, $email, $password, $re_password) {
         $validationMessage = $this->validateInput($username, $email, $password, $re_password);
         if ($validationMessage !== true) {
@@ -41,6 +46,22 @@ class user{
         }
         return $this->createUser($username, $email, $password) ? true : 'Registration failed! Please try again.';
     }
+
+
+
+    //check whether the admin details are correct or not 
+    public function registerAdmin($username, $email, $password, $re_password) {
+        $validationMessage = $this->validateInput($username, $email, $password, $re_password);
+        if ($validationMessage !== true) {
+            return $validationMessage;
+        }
+        if ($this->adminExists($username)) {
+            return 'Admin username exists, please choose another!';
+        }
+        return $this->createAdmin($username, $email, $password) ? true : 'Admin registration failed! Please try again.';
+    }
+
+    //validate inputs
 
     private function validateInput($username, $email, $password, $re_password) {
         if (empty($username) || empty($email) || empty($password) || empty($re_password)) {
@@ -62,6 +83,7 @@ class user{
     }
 
 
+    //check whether the user exists or not
     private function userExists($username){
         $stmt = $this->db->prepare('SELECT id FROM registered_customer WHERE username = ?');
         $stmt->bind_param('s', $username);
@@ -72,6 +94,20 @@ class user{
         return $exists;
 
     }
+
+
+    //check whether the admin exists or not
+    private function adminExists($username){
+        $stmt = $this->db->prepare('SELECT id FROM admin WHERE username = ?');
+        $stmt->bind_param('s', $username);
+        $stmt->execute();
+        $stmt->store_result();
+        $exists = $stmt->num_rows > 0;
+        $stmt->close();
+        return $exists;
+    }
+
+    //register user if the username does not exists
 
     private function createUser($username, $email, $password){
         $stmt = $this->db->prepare('INSERT INTO registered_customer(username, email, password) VALUES (?,?,?)');
@@ -86,6 +122,22 @@ class user{
             return false;
         }
     }
+
+
+    //register admin if the username does not exists
+    private function createAdmin($username, $email, $password){
+        $stmt = $this->db->prepare('INSERT INTO admin(username, email, password) VALUES (?,?,?)');
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $stmt->bind_param('sss', $username, $email, $hashedPassword);
+        if ($stmt->execute()) {
+            $stmt->close();
+            return true;
+        } else {
+            $stmt->close();
+            return false;
+        }
+    }
+
 }
 
 

@@ -118,6 +118,10 @@
                     <input type="checkbox" checked="checked" name="remember"> Remember me
                 </div>
                 <div class="form-group">
+                    <input type="checkbox" name="is_admin" id="is_admin">
+                    <label for="is_admin">Login as Admin</label>
+                </div>
+                <div class="form-group">
                     <a href="forget-password.php" style="color:#e4144d;">Forgot password?</a>
                 </div>
             </form>
