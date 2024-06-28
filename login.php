@@ -31,8 +31,11 @@ class user{
     public function __construct($db){
         $this->db = $db;
     }
+<<<<<<< admin-registration-login
 
     //check whether the user details are correct or not
+=======
+>>>>>>> main
     public function register($username, $email, $password, $re_password) {
         $validationMessage = $this->validateInput($username, $email, $password, $re_password);
         if ($validationMessage !== true) {
@@ -43,6 +46,7 @@ class user{
         }
         return $this->createUser($username, $email, $password) ? true : 'Registration failed! Please try again.';
     }
+
 
 
     //check whether the admin details are correct or not 
@@ -58,6 +62,7 @@ class user{
     }
 
     //validate inputs
+
     private function validateInput($username, $email, $password, $re_password) {
         if (empty($username) || empty($email) || empty($password) || empty($re_password)) {
             return 'Please complete the registration form';
@@ -77,6 +82,7 @@ class user{
         return true;
     }
 
+
     //check whether the user exists or not
     private function userExists($username){
         $stmt = $this->db->prepare('SELECT id FROM registered_customer WHERE username = ?');
@@ -88,6 +94,7 @@ class user{
         return $exists;
 
     }
+
 
     //check whether the admin exists or not
     private function adminExists($username){
@@ -101,6 +108,7 @@ class user{
     }
 
     //register user if the username does not exists
+
     private function createUser($username, $email, $password){
         $stmt = $this->db->prepare('INSERT INTO registered_customer(username, email, password) VALUES (?,?,?)');
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
@@ -115,6 +123,7 @@ class user{
         }
     }
 
+
     //register admin if the username does not exists
     private function createAdmin($username, $email, $password){
         $stmt = $this->db->prepare('INSERT INTO admin(username, email, password) VALUES (?,?,?)');
@@ -128,6 +137,7 @@ class user{
             return false;
         }
     }
+
 }
 
 

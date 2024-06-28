@@ -10,5 +10,8 @@ if (!headers_sent()) {
     header('Location: index.php');
 }
 
+
+header('Location: index.php');
+
 exit();
 ?>

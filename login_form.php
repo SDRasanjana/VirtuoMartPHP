@@ -39,9 +39,11 @@
               <label>
                 <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
               </label>
+
               <label>
                 <input type="checkbox" name="is_admin"> Register as Admin
               </label>
+
           
               <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
               <p>Do you have an account?  <a href="login2_form.php" style="color:dodgerblue">Login</a>.</p>

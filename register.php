@@ -19,14 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             header('Location: login_form.php?message=' . urlencode($result));
         }
-    } else {
-        $result = $user->register($username, $email, $password, $re_password);
-        if ($result === true) {
-            header('Location: login_form.php?message=You have successfully registered! You can now login!');
-        } else {
-            header('Location: login_form.php?message=' . urlencode($result));
-        }
-    }
+   
 }
 
 $db->close();
