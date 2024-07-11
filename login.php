@@ -31,11 +31,8 @@ class user{
     public function __construct($db){
         $this->db = $db;
     }
-<<<<<<< admin-registration-login
-
+    
     //check whether the user details are correct or not
-=======
->>>>>>> main
     public function register($username, $email, $password, $re_password) {
         $validationMessage = $this->validateInput($username, $email, $password, $re_password);
         if ($validationMessage !== true) {
