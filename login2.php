@@ -13,10 +13,6 @@ class Login {
     public function authenticateUser($username, $password, $is_admin = false) {
         $table = $is_admin ? 'admin' : 'registered_customer';
         $stmt = $this->db->prepare("SELECT id, username, password FROM $table WHERE username = ?");
-
-    public function authenticateUser($username, $password) {
-        $stmt = $this->db->prepare('SELECT id, username, password FROM registered_customer WHERE username = ?');
-
         $stmt->bind_param('s', $username);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -40,13 +36,9 @@ $login = new Login($db);
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password_input'];
-
     $is_admin = isset($_POST['is_admin']) ? true : false;
     
     $user = $login->authenticateUser($username, $password, $is_admin);
-    
-    $user = $login->authenticateUser($username, $password);
-
     
     if ($user) {
         $_SESSION['user_id'] = $user['id'];
@@ -68,16 +60,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-        
-        // Redirect to index.html with username as a parameter
-        header('Location: index.php?username=' . urlencode($user['username']));
-        exit();
-    } else {
-        $error_message = "Invalid username or password";
-        header('Location: login2_form.php?error=' . urlencode($error_message));
-        exit();
-    }
-}
 
 $db->close();
 ?>
