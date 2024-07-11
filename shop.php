@@ -7,11 +7,12 @@
 	 <title>E- CommerceWebsite</title>
 	 <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css"/>
 	 <link rel="stylesheet" type="text/css" href="style.css">
+	 <link rel="stylesheet" type="text/css" href="search.css">
   </head>
   
   <body>
   <section id="header">
-    <a href="#"><img src="img/logo.jpg" class="logo" alt="logo"</a> 
+    <a href="#"><img src="img/logo.jpg" class="logo" alt="logo"> 
 	<div>
 	 <ul id="navbar">
 	    <li><a href="index.php">Home</a></li>
@@ -35,8 +36,17 @@
 	<h2>#stayhome</h2>
 	
 	<p>Save more with coupns & up to 70% off!</p>
+	</section>
+
+	           <!--serchbox-->
+	<div class="container">
+	<div class="search">
+        <input type = "text" name="" id="find" placeholder="search products..." onkeyup="search()">
+		<button class="btn">Search</button>
+    </div>
+    </div>
+
 	
-  </section>
   
   <section id="product1" class="section-p1">
 	 <div class="pro-container">
@@ -44,7 +54,7 @@
 		   <img src="img/products/f1.jpg">
 		    <div class="des">
 			  <span>adidas</span>
-			  <h5>Cartoon Astronaut T-Shirts</h5>
+			  <h5>Black T-Shirts</h5>
 			   <div class="stars">
 			    <i class="fa fa-star"></i>
 				<i class="fa fa-star"></i>
@@ -59,7 +69,7 @@
 		   <img src="img/products/f2.jpg">
 		    <div class="des">
 			  <span>adidas</span>
-			  <h5>Cartoon Astronaut T-Shirts</h5>
+			  <h5>Blue T-Shirts</h5>
 			   <div class="stars">
 			    <i class="fa fa-star"></i>
 				<i class="fa fa-star"></i>
@@ -74,7 +84,7 @@
 		   <img src="img/products/f3.jpg">
 		    <div class="des">
 			  <span>adidas</span>
-			  <h5>Cartoon Astronaut T-Shirts</h5>
+			  <h5>Yellow T-Shirts</h5>
 			   <div class="stars">
 			    <i class="fa fa-star"></i>
 				<i class="fa fa-star"></i>
@@ -352,6 +362,27 @@
 	<p>&copy;2023 SDR Solutions</p>
 	</div>
   </footer>
+
+                         <!--serching item-->
+<script type="text/javascript">
+  function search() {
+      let filter = document.getElementById('find').value.toUpperCase();
+      let item = document.querySelectorAll('.pro');
+      let l = document.getElementsByTagName('h5');
+      for(var i = 0;i<=l.length;i++){
+         let a=item[i].getElementsByTagName('h5')[0];
+         let value=a.innerHTML || a.innerText || a.textContent;
+         if(value.toUpperCase().indexOf(filter) > -1) {
+               item[i].style.display="";
+         }
+         else
+         {
+               item[i].style.display="none";
+         }
+      }
+}
+</script>
+
   <script src="script.js"></script>
   </body>
 </html>
