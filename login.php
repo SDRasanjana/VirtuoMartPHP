@@ -33,6 +33,7 @@ class user{
     }
     
     //check whether the user details are correct or not
+    
     public function register($username, $email, $password, $re_password) {
         $validationMessage = $this->validateInput($username, $email, $password, $re_password);
         if ($validationMessage !== true) {
