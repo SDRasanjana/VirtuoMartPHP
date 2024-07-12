@@ -1,3 +1,11 @@
+<?php
+session_start();
+require_once 'CartManager.php';
+
+$cartManager = new CartManager();
+$products = $cartManager->getAllProducts();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -38,251 +46,29 @@
 	
   </section>
   
-  <section id="product1" class="section-p1">
-	 <div class="pro-container">
-	    <div class="pro" onclick="window.location.href='product.php';">
-		   <img src="img/products/f1.jpg">
-		    <div class="des">
-			  <span>adidas</span>
-			  <h5>Cartoon Astronaut T-Shirts</h5>
-			   <div class="stars">
-			    <i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-			   </div>
-			   <h4>$78</h4>
-			</div>
-			<a href="#"><i class="fa fa-shopping-cart  cart"></i></a>
-		</div>
-		<div class="pro">
-		   <img src="img/products/f2.jpg">
-		    <div class="des">
-			  <span>adidas</span>
-			  <h5>Cartoon Astronaut T-Shirts</h5>
-			   <div class="stars">
-			    <i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-			   </div>
-			   <h4>$78</h4>
-			</div>
-			<a href="#"><i class="fa fa-shopping-cart  cart"></i></a>
-		</div>
-		<div class="pro">
-		   <img src="img/products/f3.jpg">
-		    <div class="des">
-			  <span>adidas</span>
-			  <h5>Cartoon Astronaut T-Shirts</h5>
-			   <div class="stars">
-			    <i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-			   </div>
-			   <h4>$78</h4>
-			</div>
-			<a href="#"><i class="fa fa-shopping-cart  cart"></i></a>
-		</div>
-		<div class="pro">
-		   <img src="img/products/f4.jpg">
-		    <div class="des">
-			  <span>adidas</span>
-			  <h5>Cartoon Astronaut T-Shirts</h5>
-			   <div class="stars">
-			    <i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-			   </div>
-			   <h4>$78</h4>
-			</div>
-			<a href="#"><i class="fa fa-shopping-cart  cart"></i></a>
-		</div>
-		<div class="pro">
-		   <img src="img/products/f5.jpg">
-		    <div class="des">
-			  <span>adidas</span>
-			  <h5>Cartoon Astronaut T-Shirts</h5>
-			   <div class="stars">
-			    <i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-			   </div>
-			   <h4>$78</h4>
-			</div>
-			<a href="#"><i class="fa fa-shopping-cart  cart"></i></a>
-		</div>
-		<div class="pro">
-		   <img src="img/products/f6.jpg">
-		    <div class="des">
-			  <span>adidas</span>
-			  <h5>Cartoon Astronaut T-Shirts</h5>
-			   <div class="stars">
-			    <i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-			   </div>
-			   <h4>$78</h4>
-			</div>
-			<a href="#"><i class="fa fa-shopping-cart  cart"></i></a>
-		</div>
-		<div class="pro">
-		   <img src="img/products/f7.jpg">
-		    <div class="des">
-			  <span>adidas</span>
-			  <h5>Cartoon Astronaut T-Shirts</h5>
-			   <div class="stars">
-			    <i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-			   </div>
-			   <h4>$78</h4>
-			</div>
-			<a href="#"><i class="fa fa-shopping-cart  cart"></i></a>
-		</div>
-		<div class="pro">
-		   <img src="img/products/f8.jpg">
-		    <div class="des">
-			  <span>adidas</span>
-			  <h5>Cartoon Astronaut T-Shirts</h5>
-			   <div class="stars">
-			    <i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-			   </div>
-			   <h4>$78</h4>
-			</div>
-			<a href="#"><i class="fa fa-shopping-cart  cart"></i></a>
-		</div>
-	 
-	    <div class="pro">
-		   <img src="img/products/n1.jpg">
-		    <div class="des">
-			  <span>adidas</span>
-			  <h5>Cartoon Astronaut T-Shirts</h5>
-			   <div class="stars">
-			    <i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-			   </div>
-			   			   <h4>$78</h4>
-			</div>
-			<a href="#"><i class="fa fa-shopping-cart  cart"></i></a>
-		</div>
-		<div class="pro">
-		   <img src="img/products/n2.jpg">
-		    <div class="des">
-			  <span>adidas</span>
-			  <h5>Cartoon Astronaut T-Shirts</h5>
-			   <div class="stars">
-			    <i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-			   </div>
-			   <h4>$78</h4>
-			</div>
-			<a href="#"><i class="fa fa-shopping-cart  cart"></i></a>
-		</div>
-		<div class="pro">
-		   <img src="img/products/n3.jpg">
-		    <div class="des">
-			  <span>adidas</span>
-			  <h5>Cartoon Astronaut T-Shirts</h5>
-			   <div class="stars">
-			    <i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-			   </div>
-			   <h4>$78</h4>
-			</div>
-			<a href="#"><i class="fa fa-shopping-cart  cart"></i></a>
-		</div>
-		<div class="pro">
-		   <img src="img/products/n4.jpg">
-		    <div class="des">
-			  <span>adidas</span>
-			  <h5>Cartoon Astronaut T-Shirts</h5>
-			   <div class="stars">
-			    <i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-			   </div>
-			   <h4>$78</h4>
-			</div>
-			<a href="#"><i class="fa fa-shopping-cart  cart"></i></a>
-		</div>
-		<div class="pro">
-		   <img src="img/products/n5.jpg">
-		    <div class="des">
-			  <span>adidas</span>
-			  <h5>Cartoon Astronaut T-Shirts</h5>
-			   <div class="stars">
-			    <i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-			   </div>
-			   <h4>$78</h4>
-			</div>
-			<a href="#"><i class="fa fa-shopping-cart  cart"></i></a>
-		</div>
-		<div class="pro">
-		   <img src="img/products/n6.jpg">
-		    <div class="des">
-			  <span>adidas</span>
-			  <h5>Cartoon Astronaut T-Shirts</h5>
-			   <div class="stars">
-			    <i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-			   </div>
-			   <h4>$78</h4>
-			</div>
-			<a href="#"><i class="fa fa-shopping-cart  cart"></i></a>
-		</div>
-		<div class="pro">
-		   <img src="img/products/n7.jpg">
-		    <div class="des">
-			  <span>adidas</span>
-			  <h5>Cartoon Astronaut T-Shirts</h5>
-			   <div class="stars">
-			    <i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-			   </div>
-			   <h4>$78</h4>
-			</div>
-			<a href="#"><i class="fa fa-shopping-cart  cart"></i></a>
-		</div>
-		<div class="pro">
-		   <img src="img/products/n8.jpg">
-		    <div class="des">
-			  <span>adidas</span>
-			  <h5>Cartoon Astronaut T-Shirts</h5>
-			   <div class="stars">
-			    <i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-				<i class="fa fa-star"></i>
-			   </div>
-			   <h4>$78</h4>
-			</div>
-			<a href="#"><i class="fa fa-shopping-cart  cart"></i></a>
-		</div>
-	 </div>
-  </section>
+
+	<section id="product1" class="section-p1">
+        <div class="pro-container">
+            <?php foreach ($products as $product): ?>
+                <div class="pro" onclick="window.location.href='product.php?id=<?php echo $product->getId(); ?>';">
+                    <img src="<?php echo $product->getImageUrl(); ?>" alt="<?php echo $product->getName(); ?>">
+                    <div class="des">
+                        <span>adidas</span>
+                        <h5><?php echo $product->getName(); ?></h5>
+                        <div class="stars">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                        </div>
+                        <h4>$<?php echo $product->getPrice(); ?></h4>
+                    </div>
+                    <a href="#"><i class="fa fa-shopping-cart cart"></i></a>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </section>
+>>>>>>> Stashed changes
   
   <section id="pagination" class="section-p1">
     <a href="#">1</a>

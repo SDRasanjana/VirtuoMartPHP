@@ -1,3 +1,23 @@
+<?php
+session_start();
+require_once 'CartManager.php';
+
+$cartManager = new CartManager();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['update_quantity'])) {
+        $productId = $_POST['product_id'];
+        $quantity = $_POST['quantity'];
+        $cartManager->updateQuantity($productId, $quantity);
+    } elseif (isset($_POST['remove_item'])) {
+        $productId = $_POST['product_id'];
+        $cartManager->removeFromCart($productId);
+    }
+}
+
+$cartItems = $cartManager->getCartItems();
+$cartTotal = $cartManager->getCartTotal();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,46 +59,43 @@
   </section>
   
   <section id="cart" class="section-p1">
-    <table width="100%">
-	  <thead>
-	    <tr>
-		 <td>Remove</td>
-		 <td>Image</td>
-		 <td>Product</td>
-		 <td>Price</td>
-	     <td>Quantity</td>
-		 <td>Subtotal</td>
-		</tr>
-	  </thead>
-	  <tbody>
-	    <tr>
-		 <td><a href="#"><i class="fa fa-times-circle"></i></a></td>
-		 <td><img src="img/products/f1.jpg" alt=""></td>
-		 <td>Cartoon Astronaut T-Shirts</td>
-		 <td>$118.19</td>
-		 <td><input type="number" value="1"></td>
-		 <td>$118.19</td>
-		</tr>
-		<tr>
-		 <td><a href="#"><i class="fa fa-times-circle"></i></a></td>
-		 <td><img src="img/products/f2.jpg" alt=""></td>
-		 <td>Cartoon Astronaut T-Shirts</td>
-		 <td>$118.19</td>
-		 <td><input type="number" value="1"></td>
-		 <td>$118.19</td>
-		</tr>
-		<tr>
-		 <td><a href="#"><i class="fa fa-times-circle"></i></a></td>
-		 <td><img src="img/products/f3.jpg" alt=""></td>
-		 <td>Cartoon Astronaut T-Shirts</td>
-		 <td>$118.19</td>
-		 <td><input type="number" value="1"></td>
-		 <td>$118.19</td>
-		</tr>
-	  </tbody>
-	</table>
-  </section>
-  
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td>Remove</td>
+                    <td>Image</td>
+                    <td>Product</td>
+                    <td>Price</td>
+                    <td>Quantity</td>
+                    <td>Subtotal</td>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($cartItems as $item): ?>
+                    <tr>
+                        <td>
+                            <form method="POST" action="">
+                                <input type="hidden" name="product_id" value="<?php echo $item['product']->getId(); ?>">
+                                <button type="submit" name="remove_item"><i class="fa fa-times-circle"></i></button>
+                            </form>
+                        </td>
+                        <td><img src="<?php echo $item['product']->getImageUrl(); ?>" alt="<?php echo $item['product']->getName(); ?>"></td>
+                        <td><?php echo $item['product']->getName(); ?></td>
+                        <td>$<?php echo $item['product']->getPrice(); ?></td>
+                        <td>
+                            <form method="POST" action="">
+                                <input type="hidden" name="product_id" value="<?php echo $item['product']->getId(); ?>">
+                                <input type="number" name="quantity" value="<?php echo $item['quantity']; ?>" min="1">
+                                <button type="submit" name="update_quantity">Update</button>
+                            </form>
+                        </td>
+                        <td>$<?php echo $item['product']->getPrice() * $item['quantity']; ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </section>
+
   <section id="cart-add" class="section-p1">
     <div id="coupon">
 	  <h3>Apply Coupon</h3>
@@ -89,24 +106,24 @@
 	</div>
 	
 	<div id="subtotal">
-	  <h3>Cart Total</h3>
-	  <table> 
-	    <tr>
-		 <td>Cart Subtotal</td>
-		 <td>$ 335</td>
-		</tr>
-		<tr>
-		 <td>Shipping</td>
-		 <td>Free</td>
-		</tr>
-		<tr>
-		 <td><strong>Total</strong></td>
-		 <td><strong>$ 335</strong></td>
-		</tr>
-	  </table>
-	  <button class="normal">Proceed to checkout</button>
-	</div>
-  </section>
+            <h3>Cart Total</h3>
+            <table> 
+                <tr>
+                    <td>Cart Subtotal</td>
+                    <td>$<?php echo $cartTotal; ?></td>
+                </tr>
+                <tr>
+                    <td>Shipping</td>
+                    <td>Free</td>
+                </tr>
+                <tr>
+                    <td><strong>Total</strong></td>
+                    <td><strong>$<?php echo $cartTotal; ?></strong></td>
+                </tr>
+            </table>
+            <button class="normal">Proceed to checkout</button>
+        </div>
+    </section>
   <footer class="section-p1">
     <div class="col">
 	    <img src="img/logo.jpg" class="logo1" alt="logo">
