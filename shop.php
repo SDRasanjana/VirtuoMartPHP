@@ -68,7 +68,7 @@ $products = $cartManager->getAllProducts();
             <?php endforeach; ?>
         </div>
     </section>
->>>>>>> Stashed changes
+
   
   <section id="pagination" class="section-p1">
     <a href="#">1</a>
