@@ -15,11 +15,12 @@ $products = $cartManager->getAllProducts();
 	 <title>E- CommerceWebsite</title>
 	 <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css"/>
 	 <link rel="stylesheet" type="text/css" href="style.css">
+	 <link rel="stylesheet" type="text/css" href="search.css">
   </head>
   
   <body>
   <section id="header">
-    <a href="#"><img src="img/logo.jpg" class="logo" alt="logo"</a> 
+    <a href="#"><img src="img/logo.jpg" class="logo" alt="logo"> 
 	<div>
 	 <ul id="navbar">
 	    <li><a href="index.php">Home</a></li>
@@ -43,10 +44,18 @@ $products = $cartManager->getAllProducts();
 	<h2>#stayhome</h2>
 	
 	<p>Save more with coupns & up to 70% off!</p>
-	
-  </section>
-  
+	</section>
 
+	           <!--serchbox-->
+	<div class="container">
+	<div class="search">
+        <input type = "text" name="" id="find" placeholder="search products..." onkeyup="search()">
+		<button class="btn">Search</button>
+    </div>
+    </div>
+
+	
+  
 	<section id="product1" class="section-p1">
         <div class="pro-container">
             <?php foreach ($products as $product): ?>
@@ -68,7 +77,6 @@ $products = $cartManager->getAllProducts();
             <?php endforeach; ?>
         </div>
     </section>
-
   
   <section id="pagination" class="section-p1">
     <a href="#">1</a>
@@ -138,6 +146,27 @@ $products = $cartManager->getAllProducts();
 	<p>&copy;2023 SDR Solutions</p>
 	</div>
   </footer>
+
+                         <!--serching item-->
+<script type="text/javascript">
+  function search() {
+      let filter = document.getElementById('find').value.toUpperCase();
+      let item = document.querySelectorAll('.pro');
+      let l = document.getElementsByTagName('h5');
+      for(var i = 0;i<=l.length;i++){
+         let a=item[i].getElementsByTagName('h5')[0];
+         let value=a.innerHTML || a.innerText || a.textContent;
+         if(value.toUpperCase().indexOf(filter) > -1) {
+               item[i].style.display="";
+         }
+         else
+         {
+               item[i].style.display="none";
+         }
+      }
+}
+</script>
+
   <script src="script.js"></script>
   </body>
 </html>
