@@ -45,6 +45,7 @@
 		<button class="btn">Search</button>
     </div>
     </div>
+	</section>
 
 	
   
