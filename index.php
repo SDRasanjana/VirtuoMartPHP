@@ -420,7 +420,7 @@
 	   <img src="img/pay/pay.png" alt="">
 	</div>
 	<div class="copyright">
-	<p>&copy;2024 Virtuo Mart</p>
+	<p>&copy;2024 VirtuoMart</p>
 	</div>
   </footer>
   <script src="script.js"></script>

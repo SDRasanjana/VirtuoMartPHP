@@ -285,6 +285,7 @@
   </section>
   
   <section id="pagination" class="section-p1">
+    <a href="customizeorder.php">Customize Order</a>
     <a href="#">1</a>
 	<a href="#">2</a>
 	<a href="#"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
@@ -349,7 +350,7 @@
 	   <img src="img/pay/pay.png" alt="">
 	</div>
 	<div class="copyright">
-	<p>&copy;2023 SDR Solutions</p>
+	<p>&copy;2024 VirtuMart</p>
 	</div>
   </footer>
   <script src="script.js"></script>

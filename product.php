@@ -196,7 +196,7 @@
 	   <img src="img/pay/pay.png" alt="">
 	</div>
 	<div class="copyright">
-	<p>&copy;2023 SDR Solutions</p>
+	<p>&copy;2024 VirtuMart</p>
 	</div>
   </footer>
   
