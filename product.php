@@ -1,3 +1,26 @@
+<?php
+session_start();
+require_once 'CartManager.php';
+
+$cartManager = new CartManager();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
+    $productId = $_POST['product_id'];
+    $quantity = $_POST['quantity'];
+    $cartManager->addToCart($productId, $quantity);
+    header('Location: cart.php');
+    exit;
+}
+
+$productId = $_GET['id'] ?? 1; // Default to product ID 1 if not specified
+$product = $cartManager->getProductById($productId);
+
+if (!$product) {
+    // Handle product not found
+    header('Location: shop.php');
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,7 +55,8 @@
   
   <section id="prodetails" class="section-p1">
     <div class="single-pro-image">
-	  <img src="img/products/f1.jpg" width="100%"  id="mainImg"alt="">
+		<img src="<?php echo $product->getImageUrl(); ?>" width="100%" id="mainImg" alt="<?php echo $product->getName(); ?>">
+	  
 	  
 	  <div class="small-img-group">
 	    <div class="small-img-col">
@@ -51,25 +75,25 @@
 	</div>
 	<div class="single-pro-details">
 	   <h6>Home / T-Shirt</h6>
-	   <h4>Men's Fashion T Shirt</h4>
-	   <h2>$139.00</h2>
-	   <select>
-	    <option>Select Size</option>
-		<option>XL</option>
-		<option>XXL</option>
-		<option>Small</option>
-		<option>Large</option>
-		<option>Medium</option>
-	   </select>
-	    <input type="number" value="1">
-		<button class="normal">Add To Cart</button>
-		<h4>Product Details</h4>
-		<span class="des">The Gilden Ultra Cotton T-Shirt is made from a subtaintial 6.0 oz. per sq. yd.
-		 fabric constructed from 100% cotton, this classic fit preshrunk jersy knit provides 
-		 unmatched comfort with each wear. Featuring a taped neck and shoulder, and a seamless double-neddle 
-		 collor, and available in a range of colors, it offers it all in the ultimale head-turning package.</span>
-	</div>
-  </section>
+	   <h4><?php echo $product->getName(); ?></h4>
+	   <h2>$<?php echo $product->getPrice(); ?></h2>
+	   <form method="POST" action="">
+                <input type="hidden" name="product_id" value="<?php echo $product->getId(); ?>">
+                <select>
+                    <option>Select Size</option>
+                    <option>XL</option>
+                    <option>XXL</option>
+                    <option>Small</option>
+                    <option>Large</option>
+                    <option>Medium</option>
+                </select>
+                <input type="number" name="quantity" value="1" min="1">
+                <button type="submit" name="add_to_cart" class="normal">Add To Cart</button>
+            </form>
+            <h4>Product Details</h4>
+            <span class="des"><?php echo $product->getDescription(); ?></span>
+        </div>
+    </section>
   
   <section id="product1" class="section-p1">
      <h2>Featured Products</h2>
