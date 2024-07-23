@@ -11,7 +11,7 @@
   
   <body>
   <section id="header">
-    <a href="#"><img src="img/logo.jpg" class="logo" alt="logo"</a> 
+    <a href="#"><img src="img/logo.jpg" class="logo" alt="logo"></a> 
 	<div>
 	 <ul id="navbar">
 	    <li><a href="index.php">Home</a></li>
@@ -47,7 +47,7 @@
 		<div class="small-img-col">
 		<img src="img/products/f4.jpg" width="100%" class="small-img" alt="">
 		</div>
-	  </div>
+	  </div>s
 	</div>
 	<div class="single-pro-details">
 	   <h6>Home / T-Shirt</h6>
@@ -196,7 +196,7 @@
 	   <img src="img/pay/pay.png" alt="">
 	</div>
 	<div class="copyright">
-	<p>&copy;2024 VirtuMart</p>
+	<p>&copy;2024 VirtuoMart</p>
 	</div>
   </footer>
   

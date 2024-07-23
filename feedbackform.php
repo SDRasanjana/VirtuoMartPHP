@@ -13,28 +13,29 @@
   <div class="wrapper">
     <header>Send us a Feedback</header>
     <form action="message.php" method="POST">
+    <form action="message.php" method="POST">
       <div class="dbl-field">
         <div class="field">
-          <input type="text" name="name" placeholder="Enter your name">
+          <input type="text" name="name" placeholder="Enter your name" required>
           <i class='fas fa-user'></i>
         </div>
         <div class="field">
-          <input type="text" name="email" placeholder="Enter your email" id="email">
+          <input type="text" name="email" placeholder="Enter your email" id="email" required>
           <i class='fas fa-envelope'></i>
         </div>
       </div>
       <div class="dbl-field">
         <div class="field">
-          <input type="text" name="phone" placeholder="Enter your phone">
+          <input type="text" name="phone" placeholder="Enter your phone" required>
           <i class='fas fa-phone-alt'></i>
         </div>
         <div class="field">
-          <input type="text" name="product" placeholder="Enter your product name">
+          <input type="text" name="product" placeholder="Enter your product name"required>
           <i class='fas fa-globe'></i>
         </div>
       </div>
       <div class="message">
-        <textarea placeholder="Write your message" name="message"></textarea>
+        <textarea placeholder="Write your message" name="message" required></textarea>
         <i class="material-icons"></i>
       </div>
       <div class="button-area">
