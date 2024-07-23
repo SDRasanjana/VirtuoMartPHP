@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Inquiry Form</title>
     <link rel="stylesheet" href="costyle.css">
+    
 </head>
 <body>
     <div class="form-container">
@@ -15,8 +16,8 @@
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
             
-            <label for="phone">Phone Number:</label>
-            <input type="tel" id="phone" name="phone" required>
+            <label for="phone">Quantity:</label>
+            <input type="text" id="quantity" name="quantity" required>
             
             <label for="product">Product Name:</label>
             <input type="text" id="product" name="product" required>

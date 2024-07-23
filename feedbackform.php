@@ -12,7 +12,7 @@
 <body>
   <div class="wrapper">
     <header>Send us a Feedback</header>
-    <form action="#" onsubmit="sendEmail(); reset(); return false;">
+    <form action="message.php" method="POST">
       <div class="dbl-field">
         <div class="field">
           <input type="text" name="name" placeholder="Enter your name">
@@ -43,23 +43,6 @@
       </div>
     </form>
   </div>
-  <!--<script src="fbscript.js"></script>-->
-  <script src=" https://smtpjs.com/v3/smtp.js"></script>
-  <script>
-    function sendEmail() {
-      Email.send({
-        Host: "smtp.gmail.com",
-        Username: "dilarasanja5@gmail.com",
-        Password: "123dilhan123",
-        To: 'them@website.com',
-        From: document.getElementById("email").value,
-        Subject: "New Feedback Form",
-        Body: "And this is the body"
-      }).then(
-        message => alert(message)
-      );
-    }
-  </script>
 </body>
 
 </html>

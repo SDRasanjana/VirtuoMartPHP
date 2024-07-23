@@ -1,26 +1,37 @@
 <?php
-  $name = htmlspecialchars($_POST['name']);
-  $email = htmlspecialchars($_POST['email']);
-  $phone = htmlspecialchars($_POST['phone']);
-  $product = htmlspecialchars($_POST['product']);
-  $message = htmlspecialchars($_POST['message']);
+require_once './DbConnector.php';
 
-  if(!empty($email) && !empty($message)){
-    if(filter_var($email, FILTER_VALIDATE_EMAIL)){
-      $receiver = "dilarasanja5@gmail.com"; //enter that email address where you want to receive all messages
-      $subject = "From: $name <$email>";
-      $body = "Name: $name\nEmail: $email\nPhone: $phone\nProduct: $website\n\nMessage:\n$message\n\nRegards,\n$name";
-      $sender = "From: $email";
-      if(mail($receiver, $subject, $body, $sender)){
-         echo "Your message has been sent";
-      }else{
-         echo "Sorry, failed to send your message!";
-      }
-    }else{
-      echo "Enter a valid email address!";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = isset($_POST["name"]) ? $_POST["name"] : '';
+    $email = isset($_POST["email"]) ? $_POST["email"] : '';
+    $phone = isset($_POST["phone"]) ? $_POST["phone"] : '';
+    $product = isset($_POST["product"]) ? $_POST["product"] : '';
+    $message = isset($_POST["message"]) ? $_POST["message"] : '';
+
+
+    
+   if (empty($name) || empty($email) || empty($phone) || empty($product) || empty($message)) {
+        echo "Feedback sending failed. All fields are required.";
+        exit;
     }
-  }else{
-    echo "Email and message field is required!";
-  }
+
+    try {
+        $dbConnector = new DbConnector();
+        $conn = $dbConnector->getConnection();
+        $stmt = $conn->prepare("INSERT INTO feedback (name, phone, product, message, Email) VALUES (:name, :phone, :product, :message, :email)");
+        
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':phone', $phone);
+        $stmt->bindParam(':message', $message);
+        $stmt->bindParam(':product', $product);
+      
+        $stmt->execute();
+
+        echo "<br><strong>Feedback sent successfully.</strong>";
+    } catch (PDOException $e) {
+        echo "<br><strong>Feedback sent unsuccessfully." . $e->getMessage() . "</strong>";
+    }
+}
 ?>
 
