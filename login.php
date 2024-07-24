@@ -17,15 +17,15 @@ class database{
             die("connection failed: ".$this->conn->connect_error);
         }
     }
-    public function prepare($query){
-        return $this->conn->prepare($query);
+    public function getConnection() {
+        return $this->conn;
     }
     public function close(){
         $this->conn->close();
     }
 }
 
-class user{
+class Registered_Customer{
     private $db;
     
     public function __construct($db){
@@ -33,36 +33,20 @@ class user{
     }
     
     //check whether the user details are correct or not
-    public function register($username, $email, $password, $re_password) {
-        $validationMessage = $this->validateInput($username, $email, $password, $re_password);
+    public function register($username, $name, $email, $password, $re_password, $phoneNo, $gender, $address) {
+        $validationMessage = $this->validateInput($username, $name, $email, $password, $re_password, $phoneNo, $gender, $address);
         if ($validationMessage !== true) {
             return $validationMessage;
         }
         if ($this->userExists($username)) {
             return 'Username exists, please choose another!';
         }
-        return $this->createUser($username, $email, $password) ? true : 'Registration failed! Please try again.';
+        return $this->createUser($username, $name, $password, $email, $phoneNo, $gender, $address) ? true : 'Registration failed! Please try again.';
     }
 
-
-
-    //check whether the admin details are correct or not 
-    public function registerAdmin($username, $email, $password, $re_password) {
-        $validationMessage = $this->validateInput($username, $email, $password, $re_password);
-        if ($validationMessage !== true) {
-            return $validationMessage;
-        }
-        if ($this->adminExists($username)) {
-            return 'Admin username exists, please choose another!';
-        }
-        return $this->createAdmin($username, $email, $password) ? true : 'Admin registration failed! Please try again.';
-    }
-
-    //validate inputs
-
-    private function validateInput($username, $email, $password, $re_password) {
-        if (empty($username) || empty($email) || empty($password) || empty($re_password)) {
-            return 'Please complete the registration form';
+    private function validateInput($username, $name, $email, $password, $re_password, $phoneNo, $gender, $address) {
+        if (empty($username) || empty($name) || empty($email) || empty($password) || empty($re_password)) {
+            return 'Please complete all required fields in the registration form';
         }
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return 'Email is not valid!';
@@ -81,21 +65,9 @@ class user{
 
 
     //check whether the user exists or not
-    private function userExists($username){
-        $stmt = $this->db->prepare('SELECT id FROM registered_customer WHERE username = ?');
-        $stmt->bind_param('s', $username);
-        $stmt->execute();
-        $stmt->store_result();
-        $exists = $stmt->num_rows > 0;
-        $stmt->close();
-        return $exists;
-
-    }
-
-
-    //check whether the admin exists or not
-    private function adminExists($username){
-        $stmt = $this->db->prepare('SELECT id FROM admin WHERE username = ?');
+    private function userExists($username) {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare('SELECT id FROM registered_customer WHERE username = ?');
         $stmt->bind_param('s', $username);
         $stmt->execute();
         $stmt->store_result();
@@ -103,39 +75,49 @@ class user{
         $stmt->close();
         return $exists;
     }
+
 
     //register user if the username does not exists
 
-    private function createUser($username, $email, $password){
-        $stmt = $this->db->prepare('INSERT INTO registered_customer(username, email, password) VALUES (?,?,?)');
+    private function createUser($username, $name, $password, $email, $phoneNo, $gender, $address) {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare('INSERT INTO registered_customer(username, name, password, email, phoneNo, gender, address) VALUES (?,?,?,?,?,?,?)');
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $stmt->bind_param('sss', $username, $email, $hashedPassword);
-        if ($stmt->execute()) {
-            $stmt->close();
-            return true;
-        }else{
-            
-            $stmt->close();
-            return false;
-        }
+        $stmt->bind_param('sssssss', $username, $name, $hashedPassword, $email, $phoneNo, $gender, $address);
+        $result = $stmt->execute();
+        $stmt->close();
+        return $result;
     }
-
-
-    //register admin if the username does not exists
-    private function createAdmin($username, $email, $password){
-        $stmt = $this->db->prepare('INSERT INTO admin(username, email, password) VALUES (?,?,?)');
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $stmt->bind_param('sss', $username, $email, $hashedPassword);
-        if ($stmt->execute()) {
-            $stmt->close();
-            return true;
-        } else {
-            $stmt->close();
-            return false;
-        }
-    }
-
 }
+
+    class Admin {
+        private $db;
+        
+        public function __construct($db) {
+            $this->db = $db;
+        }
+        
+        public function authenticateAdmin($username, $password) {
+            $conn = $this->db->getConnection();
+            $stmt = $conn->prepare("SELECT id, username, email, password FROM admin WHERE username = ?");
+            $stmt->bind_param('s', $username);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            if ($result->num_rows === 1) {
+                $admin = $result->fetch_assoc();
+                if (password_verify($password, $admin['password'])) {
+                    return $admin;
+                }
+            }
+            
+            return false;
+        }
+    }
+    ?>
+
+
+    
 
 
 

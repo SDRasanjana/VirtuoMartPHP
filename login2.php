@@ -1,65 +1,51 @@
-
 <?php
 require_once 'login.php';
-
-class Login {
-    private $db;
-    
-    public function __construct($db) {
-        $this->db = $db;
-    }
-    
-
-    public function authenticateUser($username, $password, $is_admin = false) {
-        $table = $is_admin ? 'admin' : 'registered_customer';
-        $stmt = $this->db->prepare("SELECT id, username, password FROM $table WHERE username = ?");
-        $stmt->bind_param('s', $username);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        
-        if ($result->num_rows === 1) {
-            $user = $result->fetch_assoc();
-            if (password_verify($password, $user['password'])) {
-                return $user;
-            }
-        }
-        
-        return false;
-    }
-}
 
 session_start();
 
 $db = new Database();
-$login = new Login($db);
+$customer = new Registered_Customer($db);
+$owner = new Admin($db);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
-    $password = $_POST['password_input'];
-    $is_admin = isset($_POST['is_admin']) ? true : false;
+    $password = $_POST['password'];
     
-    $user = $login->authenticateUser($username, $password, $is_admin);
+    // Try to authenticate as admin first
+    $admin = $owner->authenticateAdmin($username, $password);
     
-    if ($user) {
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['username'] = $user['username'];
-
-        $_SESSION['is_admin'] = $is_admin;
-
-        if ($is_admin){
-            header('location: admin_dashboard.php');
-        }else{
-            // Redirect to index.php with username as a parameter
+    if ($admin) {
+        $_SESSION['user_id'] = $admin['id'];
+        $_SESSION['username'] = $admin['username'];
+        $_SESSION['email'] = $admin['email'];
+        $_SESSION['is_admin'] = true;
+        header('location: admin_dashboard.php');
+        exit();
+    }
+    
+    // If not admin, try to authenticate as customer
+    $conn = $db->getConnection();
+    $stmt = $conn->prepare("SELECT id, username, password FROM registered_customer WHERE username = ?");
+    $stmt->bind_param('s', $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows === 1) {
+        $user = $result->fetch_assoc();
+        if (password_verify($password, $user['password'])) {
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['username'] = $user['username'];
+            $_SESSION['is_admin'] = false;
             header('Location: index.php?username=' . urlencode($user['username']));
-            }
-            exit();
-        } else {
-            $error_message = "Invalid username or password";
-            header('Location: login2_form.php?error=' . urlencode($error_message));
             exit();
         }
     }
-
+    
+    // If authentication fails
+    $error_message = "Invalid username or password";
+    header('Location: login2_form.php?error=' . urlencode($error_message));
+    exit();
+}
 
 $db->close();
 ?>

@@ -108,7 +108,7 @@
                 </div>
                 <div class="form-group">
                     <label for="psw"><b>Password</b></label>
-                    <input type="password" placeholder="Enter Password" name="password_input" required>
+                    <input type="password" placeholder="Enter Password" name="password" required>
                 </div>
                 
                 <div class="form-group">
@@ -118,15 +118,24 @@
                     <input type="checkbox" checked="checked" name="remember"> Remember me
                 </div>
                 <div class="form-group">
-                    <input type="checkbox" name="is_admin" id="is_admin">
-                    <label for="is_admin">Login as Admin</label>
-                </div>
-                <div class="form-group">
                     <a href="forget-password.php" style="color:#e4144d;">Forgot password?</a>
                 </div>
+                <div class="form-group">
+                    <p>Don't have an account? <a href="login_form.php" style="color:#e4144d;">Sign up</a></p>
+                </div>
+                <div id="messageContainer"></div>
             </form>
         </div>
     </div>
+    <script>
+        window.onload = function() {
+        var error = getUrlParameter('error');
+        if (error) {
+            var messageContainer = document.getElementById('messageContainer');
+            messageContainer.innerHTML = '<div class="error">' + error + '</div>';
+         }
+    }
+    </script>
 
 </body>
 

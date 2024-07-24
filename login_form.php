@@ -15,10 +15,17 @@
             color: red;
             font-weight: bold;
           }
+          .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+          
         </style>
      </head>
      <body>
-        <form action="register.php" style="border:1px solid #ccc" method="post">
+     <div class="container">
+     <div class="form-container">
+        <form action="register.php" method="post">
             <div class="container">
               <h1>Sign Up</h1>
               <p>Please fill in this form to create an account.</p>
@@ -26,6 +33,9 @@
               <!--add username column-->
               <label for="username"><b>Username</b></label>
               <input type="text" placeholder="Enter Your Username" name="username" required>
+
+              <label for="username"><b>Name</b></label>
+              <input type="text" placeholder="Enter Your name" name="name" required>
           
               <label for="email"><b>Email</b></label>
               <input type="text" placeholder="Enter Email" name="email" required>
@@ -35,27 +45,34 @@
           
               <label for="psw-repeat"><b>Repeat Password</b></label>
               <input type="password" placeholder="Repeat Password" name="re_password" required>
-          
-              <label>
-                <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
-              </label>
 
-              <label>
-                <input type="checkbox" name="is_admin"> Register as Admin
-              </label>
-
-          
-              <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
-              <p>Do you have an account?  <a href="login2_form.php" style="color:dodgerblue">Login</a>.</p>
-          
-              <div class="clearfix">
-                <button type="button" class="cancelbtn">Cancel</button>
-                <button type="submit" class="signupbtn">Sign Up</button>
-              </div>
-              <!--add message coantainer to display the error/msg when register to the system-->
-              <div id="messageContainer"></div>
-            </div>
-          </form>
+              <div class="form-group">
+                    <label for="phoneNo"><b>Phone Number</b></label>
+                    <input type="text" placeholder="Enter Phone Number" name="phoneNo" required>
+                </div>
+                <div class="form-group">
+                    <label for="gender"><b>Gender</b></label>
+                    <select name="gender" required>
+                        <option value="">Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="address"><b>Address</b></label>
+                    <input type="text" placeholder="Enter Address" name="address" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit">Sign Up</button>
+                </div>
+                <div class="form-group">
+                    <p>Already have an account? <a href="login2_form.php" style="color:#e4144d;">Login</a></p>
+                    <div id="messageContainer"></div>
+                </div>
+            </form>
+        </div>
+      </div>
 
           <script>
             // Function to get URL parameter
@@ -69,9 +86,12 @@
             // Display the message if exists
             window.onload = function() {
                 var message = getUrlParameter('message');
+                var error = getUrlParameter('error');
+                var messageContainer = document.getElementById('messageContainer');
                 if (message) {
-                    var messageContainer = document.getElementById('messageContainer');
-                    messageContainer.innerHTML = '<div class="' + (message.includes('successfully') ? 'message' : 'error') + '">' + message + '</div>';
+                     messageContainer.innerHTML = '<div class="message">' + message + '</div>';
+                } else if (error) {
+                    messageContainer.innerHTML = '<div class="error">' + error + '</div>';
                 }
             }
         </script>
