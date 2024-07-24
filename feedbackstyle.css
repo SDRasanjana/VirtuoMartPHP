@@ -156,4 +156,7 @@ form .button-area{
     margin: 20px 0 0;
     text-align: center;
   }
+  .btn btn-primary me-2{
+    margin-right: 10px;
+  }
 }
