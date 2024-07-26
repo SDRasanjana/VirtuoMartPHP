@@ -11,7 +11,7 @@
   
   <body>
   <section id="header">
-    <a href="#"><img src="img/logo.jpg" class="logo" alt="logo"</a> 
+    <a href="#"><img src="img/logo.jpg" class="logo" alt="logo"></a> 
 	<div>
 	 <ul id="navbar">
 	    <li><a href="index.php">Home</a></li>
@@ -71,14 +71,50 @@
   </section>
   
   <section id="form-details">
-    <form>
+    <form action="<?php echo $_SERVER["PHP_SELF"];?>" method="POST">
 	  <span>LEAVE A MESSAGE</span>
 	  <h2>We love to hear from you</h2>
-	  <input type="text" placeholder="Your Name">
-	  <input type="text" placeholder="E-mail">
-	  <input type="text" placeholder="Subject">
-	  <textarea name="" id="" cols="30" rows="10" placeholder="Your Message"></textarea>
+	  <input type="text" placeholder="Your Name" name="name">
+	  <input type="text" placeholder="E-mail" name="email">
+	  <input type="text" placeholder="Subject" name="subject">
+	  <textarea name="message" id="" cols="30" rows="10" placeholder="Your Message" ></textarea>
 	  <button class="normal">Sumbit</button>
+	  <?php
+require_once './DbConnector.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = isset($_POST["name"]) ? $_POST["name"] : '';
+    $email = isset($_POST["email"]) ? $_POST["email"] : '';
+    $subject = isset($_POST["subject"]) ? $_POST["subject"] : '';
+    $message = isset($_POST["message"]) ? $_POST["message"] : '';
+
+
+    
+   if (empty($name) || empty($email) || empty($subject) || empty($message)) {
+        echo "Feedback sending failed. All fields are required.";
+        exit;
+    }
+
+    try {
+        $dbConnector = new DbConnector();
+        $conn = $dbConnector->getConnection();
+        $stmt = $conn->prepare("INSERT INTO feedback (name, email, subject, message) VALUES (:name, :email, :subject, :message)");
+        
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':subject', $subject);
+        $stmt->bindParam(':message', $message);
+      
+        $stmt->execute();
+
+        echo "<br><strong>Feedback sent successfully.</strong>";
+    } catch (PDOException $e) {
+        echo "<br><strong>Feedback sent unsuccessfully." . $e->getMessage() . "</strong>";
+    }
+}
+?>
+
+
 	</form>
 	
 	<div class="people">
