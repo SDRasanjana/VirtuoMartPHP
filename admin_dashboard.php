@@ -2,14 +2,15 @@
 
 //session for display the admin name
 session_start();
-if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true ){
+if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
     header('location: login2_form.php');
     exit();
-    }
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,11 +19,12 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true ){
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="admin_styles.css">
 </head>
+
 <body>
     <div class="header">
         <h1>Admin Dashboard</h1>
         <div>
-            <span>welcome, <?php echo htmlspecialchars($_SESSION['username']);?></span>
+            <span>welcome, <?php echo htmlspecialchars($_SESSION['username']); ?></span>
             <a href="logout.php" class="btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
     </div>
@@ -56,7 +58,28 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true ){
                 </tr>
             </thead>
             <tbody>
-                <!-- Customer data will be inserted here -->
+                <?php 
+                require_once './DbConnector.php';
+                $dbconnector = new DbConnector();
+                $con = $dbconnector->getConnection();
+
+                // read all rows from product table
+                $sql = "SELECT * FROM registered_customer";
+                $result = $con->query($sql);
+
+                if (!$result) {
+                    die("Invalid query: " . $con->errorInfo());
+                }
+                // table data
+                while ( $row = $result->fetch(PDO::FETCH_ASSOC)) {
+                    echo "<tr>
+                       <td>" . $row["id"] . "</td>
+                       <td>" . $row["name"] . "</td>
+                       <td>" . $row["email"] . "</td>
+                       <td> <a href='delete' class='delete'>Delete</a> </td>
+                       </tr>";
+                }
+                ?>
             </tbody>
         </table>
 
@@ -73,7 +96,27 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true ){
                 </tr>
             </thead>
             <tbody>
-                <!-- Product data will be inserted here -->
+                <?php
+                require_once './DbConnector.php';
+                $dbconnector = new DbConnector();
+                $con = $dbconnector->getConnection();
+
+                // read all rows from product table
+                $sql = "SELECT * FROM products";
+                $result = $con->query($sql);
+
+                if (!$result) {
+                    die("Invalid query: " . $con->errorInfo());
+                }
+                // table data
+                while ( $row = $result->fetch(PDO::FETCH_ASSOC)) {
+                    echo "<tr>
+                       <td>" . $row["id"] . "</td>
+                       <td>" . $row["name"] . "</td>
+                       <td>" . $row["price"] . "</td>
+                       </tr>";
+                }
+                ?>
             </tbody>
         </table>
 
@@ -130,4 +173,5 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true ){
 
     <script src="admin_script.js"></script>
 </body>
+
 </html>
