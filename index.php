@@ -21,7 +21,7 @@
 		<li><a href="about.php">About</a></li>
 		<li><a href="contact.php">Contact</a></li>
 		<li id="lg-bag"><a href="cart.php"><i class="fa fa-shopping-bag"></i></a></li>
-		<li id="lg-bag"><a href="login_form.php"><i class="fa fa-user-plus"></i></a></li>
+		<li id="lg-bag"><a href="signup.php"><i class="fa fa-user-plus"></i></a></li>
 		<a href="#" id="close"><i class="fa fa-times"></i></a>
 		<!--adding logout icon-->
 		<li id="user-info">

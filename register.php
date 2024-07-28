@@ -1,33 +1,32 @@
 <?php
-
-require './login.php';
+require_once 'classes/DbConnector.php';
+require_once 'classes/User.php';
+require_once 'classes/RegisteredCustomer.php';
 
 $db = new Database();
-$user = new User($db);
+$customer = new RegisteredCustomer($db);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
+    $name = $_POST['name'];
     $email = $_POST['email'];
     $password = $_POST['password'];
     $re_password = $_POST['re_password'];
-    $is_admin = isset($_POST['is_admin']) ? true : false;
+    $phoneNo = $_POST['phoneNo'];
+    $gender = $_POST['gender'];
+    $address = $_POST['address'];
 
-    if ($is_admin) {
-        $result = $user->registerAdmin($username, $email, $password, $re_password);
-        if ($result === true) {
-            header('Location: login_form.php?message=' . urlencode('Admin successfully registered! You can now login!'));
-        } else {
-            header('Location: login_form.php?message=' . urlencode($result));
-        }
+    $result = $customer->register($username, $name, $email, $password, $re_password, $phoneNo, $gender, $address);
+
+    if ($result === true) {
+        $message = "Registration successful! Please login.";
+        header('Location: signup.php?message=' . urlencode($message));
     } else {
-        $result = $user->register($username, $email, $password, $re_password);
-        if ($result === true) {
-            header('Location: login_form.php?message=You have successfully registered! You can now login!');
-        } else {
-            header('Location: login_form.php?message=' . urlencode($result));
-        }
+        $error = $result;
+        header('Location: signup.php?error=' . urlencode($error));
     }
+    exit();
 }
+
 $db->close();
 ?>
-

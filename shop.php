@@ -4,6 +4,7 @@ require_once 'CartManager.php';
 
 $cartManager = new CartManager();
 $products = $cartManager->getAllProducts();
+
 ?>
 
 <!DOCTYPE html>
