@@ -67,7 +67,7 @@
                     <button type="submit">Sign Up</button>
                 </div>
                 <div class="form-group">
-                    <p>Already have an account? <a href="login2_form.php" style="color:#e4144d;">Login</a></p>
+                    <p>Already have an account? <a href="login.php" style="color:#e4144d;">Login</a></p>
                     <div id="messageContainer"></div>
                 </div>
             </form>

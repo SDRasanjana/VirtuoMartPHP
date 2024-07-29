@@ -1,8 +1,10 @@
 <?php
-require_once 'login.php';
+require_once 'classes/DbConnector.php';
+require_once 'classes/User.php';
+require_once 'classes/RegisteredCustomer.php';
 
 $db = new Database();
-$customer = new Registered_Customer($db);
+$customer = new RegisteredCustomer($db);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
@@ -14,14 +16,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $gender = $_POST['gender'];
     $address = $_POST['address'];
 
-    $result = $customer->register($_POST['username'], $_POST['name'], $_POST['email'], $_POST['password'], $_POST['re_password'], $_POST['phoneNo'], $_POST['gender'], $_POST['address']);
+    $result = $customer->register($username, $name, $email, $password, $re_password, $phoneNo, $gender, $address);
 
     if ($result === true) {
         $message = "Registration successful! Please login.";
-        header('Location: login2_form.php?message=' . urlencode($message));
+        header('Location: signup.php?message=' . urlencode($message));
     } else {
         $error = $result;
-        header('Location: login_form.php?error=' . urlencode($error));
+        header('Location: signup.php?error=' . urlencode($error));
     }
     exit();
 }
