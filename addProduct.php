@@ -49,8 +49,8 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary">Save Product</button>
-                <?php 
-require_once './DbConnector.php';
+                <?php
+require_once 'classes/ProductClass.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = isset($_POST["name"]) ? $_POST["name"] : '';
@@ -58,52 +58,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $description = isset($_POST["description"]) ? $_POST["description"] : '';
 
     if (empty($name) || empty($price) || empty($description)) {
-        echo "All fields are required.";
-        exit;
-    }
-
-    // Handle file upload
-    $image_path = '';
-    if (!empty($_FILES['image']['name'])) {
-        $upload_dir = __DIR__. '/img/products/';
-        $file_name = basename($_FILES['image']['name']);
-        $target_file = $upload_dir . $file_name;
-        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-
-        // Check if image file is a actual image or fake image
-        $check = getimagesize($_FILES['image']['tmp_name']);
-        if ($check !== false) {
-            // Allow certain file formats
-            if ($imageFileType == "jpg" || $imageFileType == "png" || $imageFileType == "jpeg" || $imageFileType == "gif") {
-                if (move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
-                    $image_path = $target_file;
-                } else {
-                    echo "Sorry, there was an error uploading your file.";
-                    exit;
-                }
-            } else {
-                echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-                exit;
+        echo "<div class='alert alert-danger'>All fields are required.</div>";
+    } else {
+        try {
+            $image_path = '';
+            if (!empty($_FILES['image']['name'])) {
+                $image_path = Product::uploadImage($_FILES['image']);
             }
-        } else {
-            echo "File is not an image.";
-            exit;
-        }
-    }
 
-    try {
-        $dbConnector = new DbConnector();
-        $conn = $dbConnector->getConnection();
-        $stmt = $conn->prepare("INSERT INTO products (name, description, price, image_url) VALUES (:name, :description, :price, :image_url)");        
-        $stmt->bindParam(':name', $name);
-        $stmt->bindParam(':description', $description);
-        $stmt->bindParam(':price', $price);
-        $stmt->bindParam(':image_url', $image_path);
-        
-        $stmt->execute();
-        echo "<br><strong>Product added successfully.</strong>";
-    } catch (PDOException $e) {
-        echo "<br><strong>Product added unsuccessfully. " . $e->getMessage() . "</strong>";
+            $product = new Product($name, $description, $price,'', $image_path);
+
+            if ($product->addProduct()) {
+                echo "<div class='alert alert-success'>Product added successfully.</div>";
+            } else {
+                echo "<div class='alert alert-danger'>Failed to add product.</div>";
+            }
+        } catch (Exception $e) {
+            echo "<div class='alert alert-danger'>Error: " . $e->getMessage() . "</div>";
+        }
     }
 }
 ?>

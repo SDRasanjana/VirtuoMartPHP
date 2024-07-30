@@ -1,5 +1,5 @@
 <?php
-require_once 'product_be.php';
+require_once 'classes/ProductClass.php';
 
 class ShoppingCart {
     private $items = [];

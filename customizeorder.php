@@ -69,8 +69,8 @@
                             <button type="submit" class="btn btn-submit btn-lg p-2">Submit</button>
                             <button type="reset" class="btn btn-submit btn-lg p-2 ms-auto">Reset</button>
                         </div>
-                        <?php 
-require_once './DbConnector.php';
+                        <?php
+require_once 'classes/CustomOrder.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = isset($_POST["name"]) ? $_POST["name"] : '';
@@ -80,57 +80,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $size = isset($_POST["size"]) ? $_POST["size"] : '';
     $message = isset($_POST["message"]) ? $_POST["message"] : '';
 
-    if (empty($name) || empty($email) || empty($quantity) || empty($product) || empty($message)) {
-        echo "Customize order sending failed. All fields are required.";
-        exit;
-    }
+    if (empty($name) || empty($email) || empty($quantity) || empty($product) || empty($size)) {
+        echo "<div class='alert alert-danger'>Customize order sending failed. All fields except message are required.</div>";
+    } else {
+        try {
+            $customOrder = new CustomOrder($name, $email, $quantity, $size, '', $product, $message);
 
-    // Handle file upload
-    $image_path = '';
-    if (!empty($_FILES['image']['name'])) {
-        $upload_dir = __DIR__.'/img/uploads/';
-        $file_name = basename($_FILES['image']['name']);
-        $target_file = $upload_dir . $file_name;
-        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-
-        // Check if image file is a actual image or fake image
-        $check = getimagesize($_FILES['image']['tmp_name']);
-        if ($check !== false) {
-            // Allow certain file formats
-            if ($imageFileType == "jpg" || $imageFileType == "png" || $imageFileType == "jpeg" || $imageFileType == "gif") {
-                if (move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
-                    $image_path = $target_file;
-                } else {
-                    echo "Sorry, there was an error uploading your file.";
-                    exit;
-                }
-            } else {
-                echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-                exit;
+            if (!empty($_FILES['image']['name'])) {
+                $customOrder->uploadPhoto($_FILES['image']);
             }
-        } else {
-            echo "File is not an image.";
-            exit;
-        }
-    }
 
-    try {
-        $dbConnector = new DbConnector();
-        $conn = $dbConnector->getConnection();
-        $stmt = $conn->prepare("INSERT INTO customizeorder (customerName, Email, quantity, image, size, message, productname) VALUES (:name, :email, :quantity, :image, :size, :message, :product)");
-        
-        $stmt->bindParam(':name', $name);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':quantity', $quantity);
-        $stmt->bindParam(':image', $image_path);
-        $stmt->bindParam(':size', $size);
-        $stmt->bindParam(':message', $message);
-        $stmt->bindParam(':product', $product);
-      
-        $stmt->execute();
-        echo "<br><strong>Customize order sent successfully.</strong>";
-    } catch (PDOException $e) {
-        echo "<br><strong>Customize order sent unsuccessfully. " . $e->getMessage() . "</strong>";
+            if ($customOrder->customizeTheOrder()) {
+                echo "<div class='alert alert-success'>Customize order sent successfully.</div>";
+            } else {
+                echo "<div class='alert alert-danger'>Customize order sent unsuccessfully.</div>";
+            }
+        } catch (Exception $e) {
+            echo "<div class='alert alert-danger'>Error: " . $e->getMessage() . "</div>";
+        }
     }
 }
 ?>

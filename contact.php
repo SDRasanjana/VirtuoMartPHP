@@ -80,7 +80,7 @@
 	  <textarea name="message" id="" cols="30" rows="10" placeholder="Your Message" ></textarea>
 	  <button class="normal">Sumbit</button>
 	  <?php
-require_once './DbConnector.php';
+require_once 'classes/Feedback.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = isset($_POST["name"]) ? $_POST["name"] : '';
@@ -88,33 +88,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $subject = isset($_POST["subject"]) ? $_POST["subject"] : '';
     $message = isset($_POST["message"]) ? $_POST["message"] : '';
 
-
-    
-   if (empty($name) || empty($email) || empty($subject) || empty($message)) {
+    if (empty($name) || empty($email) || empty($subject) || empty($message)) {
         echo "Feedback sending failed. All fields are required.";
         exit;
     }
 
-    try {
-        $dbConnector = new DbConnector();
-        $conn = $dbConnector->getConnection();
-        $stmt = $conn->prepare("INSERT INTO feedback (name, email, subject, message) VALUES (:name, :email, :subject, :message)");
-        
-        $stmt->bindParam(':name', $name);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':subject', $subject);
-        $stmt->bindParam(':message', $message);
-      
-        $stmt->execute();
-
+    $feedback = new Feedback($name, $email, $subject, $message);
+    if ($feedback->giveFeedback()) {
         echo "<br><strong>Feedback sent successfully.</strong>";
-    } catch (PDOException $e) {
-        echo "<br><strong>Feedback sent unsuccessfully." . $e->getMessage() . "</strong>";
+    } else {
+        echo "<br><strong>Feedback sent unsuccessfully.</strong>";
     }
 }
 ?>
-
-
 	</form>
 	
 	<div class="people">
