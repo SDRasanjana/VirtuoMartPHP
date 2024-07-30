@@ -1,6 +1,6 @@
 <?php
 require_once 'DatabaseConnection.php';
-require_once 'product_be.php';
+require_once 'classes/ProductClass.php';
 require_once 'ShoppingCart.php';
 
 
