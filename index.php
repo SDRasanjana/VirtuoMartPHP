@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,30 +16,26 @@
   
   <body>
   <section id="header">
-    <a href="#"><img src="img/logo.jpg" class="logo" alt="logo"> 
-	<div>
-	 <ul id="navbar">
-	    <li><a class="active" href="index.php">Home</a></li>
-		<li><a href="shop.php">Shop</a></li>
-		<li><a href="blog.php">Blog</a></li>
-		<li><a href="about.php">About</a></li>
-		<li><a href="contact.php">Contact</a></li>
-		<li id="lg-bag"><a href="cart.php"><i class="fa fa-shopping-bag"></i></a></li>
-		<li id="lg-bag"><a href="signup.php"><i class="fa fa-user-plus"></i></a></li>
-		<a href="#" id="close"><i class="fa fa-times"></i></a>
-		<!--adding logout icon-->
-		<li id="user-info">
-			<a href="#"><i class="fa fa-user"></i></a>
-			<a href="logout.php"><i class="fa fa-sign-out"></i> Logout</a>
-		</li>
-		
-	 </ul>
-	</div>
-	<div id="mobile">
-	   <a href="cart.html"><i class="fa fa-shopping-bag"></i></a>
-	   <i id="bar" class="fa fa-outdent"></i>
-	</div>
-  </section>
+    <a href="#"><img src="img/logo.jpg" class="logo" alt="logo"></a>
+    <div>
+        <ul id="navbar">
+            <li><a class="active" href="index.php">Home</a></li>
+            <li><a href="shop.php">Shop</a></li>
+            <li><a href="blog.php">Blog</a></li>
+            <li><a href="about.php">About</a></li>
+            <li><a href="contact.php">Contact</a></li>
+            <li id="lg-bag"><a href="cart.php"><i class="fa fa-shopping-bag"></i></a></li>
+        </ul>
+    </div>
+    <div id="user-auth">
+        <?php if (isset($_SESSION['username'])): ?>
+            <span>Welcome, <?php echo $_SESSION['username']; ?></span>
+            <a href="logout.php">Logout</a>
+        <?php else: ?>
+            <a href="login.php">Login</a>
+        <?php endif; ?>
+    </div>
+</section>
   
     <section id="hero">
     <h4>Trade-in-offer</h4>

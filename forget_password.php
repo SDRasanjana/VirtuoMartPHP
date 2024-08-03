@@ -93,7 +93,7 @@
     <div class="container">
         <div class="form-container">
             <form action="reset_password_process.php" method="post">
-                <input type="hidden" name="token" value="<?php echo htmlspecialchars($_GET['token']); ?>">
+                
                 <div class="form-group">
                     <label for="new_password"><b>New Password</b></label>
                     <input type="password" placeholder="Enter New Password" name="new_password" required>
