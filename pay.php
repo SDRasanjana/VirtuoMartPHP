@@ -39,7 +39,6 @@
     <div class="container">
         <div class="order-container p-4">
             <h3 class="mb-4">Order Confirmation</h3>
-            
             <div class="row">
                 <div class="col-md-6 mb-4">
                     <h4>Product Details</h4>
@@ -69,6 +68,9 @@
                             <p class="card-text">US $0.99</p>
                             <p class="card-text"><small class="text-muted">Estimated delivery between Aug 04 - 09</small></p>
                         </div>
+                    </div>
+                    <div class='modal-footer'>
+                    <button type='button' class='btn btn-secondary' onclick="closeForm()">Close</button>
                     </div>
                 </div>
                 
@@ -145,12 +147,18 @@
                             <label class="form-check-label" for="saveCard">Save card details</label>
                         </div>
                         <p class="text-muted mb-4"><small><i class="bi bi-info-circle"></i> Your order will be processed in LKR</small></p>
-
+                        <div class='modal-footer'>
                         <button type="submit" class="btn btn-confirm btn-lg w-100 text-white">Confirm & pay</button>
+                        </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </body>
+<script>
+        function closeForm() {
+            window.location.href = 'cart.php';
+        }
+    </script>
 </html>
