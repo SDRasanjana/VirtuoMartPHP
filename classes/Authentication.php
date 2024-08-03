@@ -15,6 +15,7 @@ class Authentication {
     }
 
     public function authenticate($username, $password) {
+        session_start();
         if ($this->admin->authenticate($username, $password)) {
             $this->setAdminSession($this->admin);
             return 'admin';
@@ -59,5 +60,11 @@ class Authentication {
         $_SESSION['user_id'] = $owner->getId();
         $_SESSION['username'] = $owner->getUsername();
         $_SESSION['is_admin'] = false;
+    }
+
+    public function logout() {
+        session_start();
+        session_unset();
+        session_destroy();
     }
 }

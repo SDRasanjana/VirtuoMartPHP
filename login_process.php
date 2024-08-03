@@ -32,11 +32,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         header('Location: delivery_dashboard.php');
         exit();
     } elseif ($result === 'owner') {
-        header('Location: owner_dashboard.php');
+        header('Location: owner_dashboard/owner_dashboard.php');
         exit();
     } else {
         $error_message = "Invalid username or password";
-        header('Location: signup.php?error=' . urlencode($error_message));
+        header('Location: login.php?error=' . urlencode($error_message));
         exit();
     }
 }
