@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>E-Commerce Website</title>
+    <title>Reset Password</title>
     <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css" />
     <style>
         body {
@@ -26,8 +26,6 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
-        input[type=text],
-        input[type=email],
         input[type=password] {
             width: 100%;
             padding: 12px 20px;
@@ -51,13 +49,6 @@
 
         button:hover {
             opacity: 0.8;
-        }
-
-        .cancelbtn {
-            width: auto;
-            padding: 10px 18px;
-            background-color: #f44336;
-            border-radius: 4px;
         }
 
         .form-group {
@@ -95,46 +86,45 @@
 
     <div class="page-banner" style="background-image: url('assets/uploads/banner_login.jpg');">
         <div class="inner">
-            <h1>Login</h1>
+            <h1>Reset Password</h1>
         </div>
     </div>
 
     <div class="container">
         <div class="form-container">
-            <form action="login_process.php" method="post">
-                <div class="form-group">
-                    <label for="uname"><b>Username</b></label>
-                    <input type="text" placeholder="Enter Username" name="username" required>
-                </div>
-                <div class="form-group">
-                    <label for="psw"><b>Password</b></label>
-                    <input type="password" placeholder="Enter Password" name="password" required>
-                </div>
+            <form action="reset_password_process.php" method="post">
                 
                 <div class="form-group">
-                    <button type="submit">Login</button>
+                    <label for="new_password"><b>New Password</b></label>
+                    <input type="password" placeholder="Enter New Password" name="new_password" required>
                 </div>
                 <div class="form-group">
-                    <input type="checkbox" checked="checked" name="remember"> Remember me
+                    <label for="confirm_password"><b>Confirm Password</b></label>
+                    <input type="password" placeholder="Confirm New Password" name="confirm_password" required>
                 </div>
                 <div class="form-group">
-                    <a href="forget_password.php" style="color:#e4144d;">Forgot password?</a>
-                </div>
-                <div class="form-group">
-                    <p>Don't have an account? <a href="signup.php" style="color:#e4144d;">Sign up</a></p>
+                    <button type="submit">Reset Password</button>
                 </div>
                 <div id="messageContainer"></div>
             </form>
         </div>
     </div>
+
     <script>
         window.onload = function() {
-        var error = getUrlParameter('error');
-        if (error) {
-            var messageContainer = document.getElementById('messageContainer');
-            messageContainer.innerHTML = '<div class="error">' + error + '</div>';
-         }
-    }
+            var error = getUrlParameter('error');
+            if (error) {
+                var messageContainer = document.getElementById('messageContainer');
+                messageContainer.innerHTML = '<div class="error">' + error + '</div>';
+            }
+        }
+
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
     </script>
 
 </body>
