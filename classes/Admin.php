@@ -1,4 +1,5 @@
 <?php
+
 class Admin extends User {
     public function authenticate($username, $password) {
         $conn = $this->db->getConnection();
@@ -19,5 +20,7 @@ class Admin extends User {
         
         return false;
     }
+
+
 
 }

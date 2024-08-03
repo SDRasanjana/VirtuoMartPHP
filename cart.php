@@ -31,7 +31,7 @@ $cartTotal = $cartManager->getCartTotal();
   
   <body>
   <section id="header">
-    <a href="#"><img src="img/logo.jpg" class="logo" alt="logo"</a> 
+    <a href="#"><img src="img/logo.jpg" class="logo" alt="logo"></a> 
 	<div>
 	 <ul id="navbar">
 	    <li><a href="index.php">Home</a></li>
@@ -121,7 +121,7 @@ $cartTotal = $cartManager->getCartTotal();
                     <td><strong>$<?php echo $cartTotal; ?></strong></td>
                 </tr>
             </table>
-            <button class="normal">Proceed to checkout</button>
+            <a href="pay.php"><button class="normal">Proceed to checkout</button></a>
         </div>
     </section>
   <footer class="section-p1">

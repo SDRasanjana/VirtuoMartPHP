@@ -4,6 +4,7 @@ abstract class User {
     protected $id;
     protected $username;
     protected $email;
+    protected $password;
 
     public function __construct(Database $db) {
         $this->db = $db;

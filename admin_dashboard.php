@@ -59,13 +59,13 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                 </tr>
             </thead>
             <tbody>
-                <?php 
+                <?php
                 require_once './DbConnector.php';
                 $dbconnector = new DbConnector();
                 $con = $dbconnector->getConnection();
 
                 //delete data from product table
-                if(isset($_GET['id'])){
+                if (isset($_GET['id'])) {
                     $id = $_GET['id'];
                     $dsql = "DELETE FROM `registered_customer` WHERE `id` = '$id'";
                     $delete = $con->query($dsql);
@@ -80,7 +80,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                     die("Invalid query: " . $con->errorInfo());
                 }
                 // table data
-                while ( $row = $result->fetch(PDO::FETCH_ASSOC)) {
+                while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
                     echo "<tr>
                        <td>" . $row["id"] . "</td>
                        <td>" . $row["name"] . "</td>
@@ -112,7 +112,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                 $con = $dbconnector->getConnection();
 
                 //Delete data from product table
-                if(isset($_GET['id'])){
+                if (isset($_GET['id'])) {
                     $id = $_GET['id'];
                     $dsql = "DELETE FROM `products` WHERE `id` = '$id'";
                     $delete = $con->query($dsql);
@@ -125,17 +125,57 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                 if (!$result) {
                     die("Invalid query: " . $con->errorInfo());
                 }
+
+                if (isset($_POST['update_product'])) {
+                    $id = $_POST['product_id'];
+                    $name = $_POST['product_name'];
+                    $price = $_POST['product_price'];
+                    $usql = "UPDATE `products` SET `name` = :name, `price` = :price WHERE `id` = :id";
+                    $stmt = $con->prepare($usql);
+                    $stmt->bindParam(':id', $id);
+                    $stmt->bindParam(':name', $name);
+                    $stmt->bindParam(':price', $price);
+                    $stmt->execute();
+                }
                 // table data
-                while ( $row = $result->fetch(PDO::FETCH_ASSOC)) {
+                while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
                     echo "<tr>
                        <td>" . $row["id"] . "</td>
                        <td>" . $row["name"] . "</td>
                        <td>" . $row["price"] . "</td>
                        <td>
-                         <button type='button' class='btn btn-warning'>Update</button>
-                         <a class='btn btn-danger' href='admin_dashboard.php?id=" . $row["id"] . "'>Delete</a>
+                       <button type='button' class='btn btn-warning' data-bs-toggle='modal' data-bs-target='#updateModal" . $row["id"] . "'>Update</button>
+                       <a class='btn btn-danger' href='admin_dashboard.php?id=" . $row["id"] . "'>Delete</a>
                         </td>
                        </tr>";
+                       echo "<div class='modal fade' id='updateModal" . $row["id"] . "' tabindex='-1' aria-labelledby='updateModalLabel" . $row["id"] . "' aria-hidden='true'>
+                       <div class='modal-dialog'>
+                           <div class='modal-content'>
+                               <div class='modal-header'>
+                                   <h5 class='modal-title' id='updateModalLabel" . $row["id"] . "'>Update Product</h5>
+                                   <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                               </div>
+                               <form action='' method='post'>
+                                   <div class='modal-body'>
+                                       <input type='hidden' name='product_id' value='" . $row["id"] . "'>
+                                       <div class='mb-3'>
+                                           <label for='product_name' class='form-label'>Product Name</label>
+                                           <input type='text' class='form-control' id='product_name' name='product_name' value='" . $row["name"] . "' required>
+                                       </div>
+                                       <div class='mb-3'>
+                                           <label for='product_price' class='form-label'>Product Price</label>
+                                           <input type='number' class='form-control' id='product_price' name='product_price' value='" . $row["price"] . "' step='0.01' required>
+                                       </div>
+                                   </div>
+                                   <div class='modal-footer'>
+                                       <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Close</button>
+                                       <button type='submit' class='btn btn-primary' name='update_product'>Save changes</button>
+                                   </div>
+                               </form>
+                           </div>
+                       </div>
+                   </div>";
+               
                 }
                 ?>
             </tbody>
@@ -187,28 +227,28 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                 </tr>
             </thead>
             <tbody>
-            <?php
+                <?php
                 require_once './DbConnector.php';
                 $dbconnector = new DbConnector();
                 $con = $dbconnector->getConnection();
-              
-                 // read all rows from product table
-                 $sql = "SELECT * FROM feedback";
-                 $result = $con->query($sql);
- 
-                 if (!$result) {
-                     die("Invalid query: " . $con->errorInfo());
-                 }
-                 // table data
-                 while ( $row = $result->fetch(PDO::FETCH_ASSOC)) {
-                     echo "<tr>
+
+                // read all rows from product table
+                $sql = "SELECT * FROM feedback";
+                $result = $con->query($sql);
+
+                if (!$result) {
+                    die("Invalid query: " . $con->errorInfo());
+                }
+                // table data
+                while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                    echo "<tr>
                         <td>" . $row["formid"] . "</td>
                         <td>" . $row["name"] . "</td>
                         <td>" . $row["email"] . "</td>
                         <td>" . $row["subject"] . "</td>
                         <td>" . $row["message"] . "</td>
                         </tr>";
-                 }
+                }
 
                 ?>
             </tbody>
