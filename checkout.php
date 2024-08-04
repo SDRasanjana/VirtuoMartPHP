@@ -219,7 +219,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <div class="order-summary">
             <h3>Order Summary</h3>
-                <h3>Order Summary</h3>
                 <?php foreach ($cartItems as $item): ?>
                     <div class="order-item">
                         <span><?php echo $item['product']->getName(); ?></span>
