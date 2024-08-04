@@ -8,6 +8,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
 }
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,7 +35,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
         <div class="stats">
             <div class="stat-box">
                 <h2>Total Customers</h2>
-                <p id="num-customers"></p>
+                <p id="num-customers"><? echo $total_customers;?></p>
             </div>
             <div class="stat-box">
                 <h2>Total Products</h2>
