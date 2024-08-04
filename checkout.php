@@ -6,7 +6,7 @@ require_once 'classes/OrderManager.php';
 $cartManager = new CartManager();
 $orderManager = new OrderManager();
 
-// Check if user is logged in
+// Check the user login or not
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit;
@@ -17,16 +17,32 @@ $customerDetails = $orderManager->getCustomerDetails($customerId);
 $cartItems = $cartManager->getCartItems();
 $cartTotal = $cartManager->getCartTotal();
 
+// Check whether the payment details are set
+if (!isset($_SESSION['payment_details']) || !isset($_SESSION['shipping_address'])) {
+    header('Location: pay.php');
+    exit;
+}
+
+$paymentDetails = $_SESSION['payment_details'];
+$shippingAddress = $_SESSION['shipping_address'];
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Creating a new order
     $order = new Order($customerId, $cartTotal);
     $orderId = $orderManager->createOrder($order);
 
     if ($orderId) {
-        // Clear the cart
+    
+        $orderManager->savePaymentDetails($orderId, $paymentDetails);
+
+        // Clear cart
         $cartManager->clearCart();
 
-        // Display success or error message
+        // Clear payment details from session
+        unset($_SESSION['payment_details']);
+        unset($_SESSION['shipping_address']);
+
+    
         $successMessage = "Order placed successfully! Your order ID is: " . $orderId;
     } else {
         $errorMessage = "There was an error processing your order. Please try again.";
@@ -46,70 +62,78 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
      <style>
         
         #checkout {
-            padding: 40px 0;
-        }
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
 
-        #checkout h2 {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+#checkout h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
 
-        .customer-details, .order-summary {
-            background-color: #f8f8f8;
-            padding: 20px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
+.checkout-details {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
 
-        .customer-details h3, .order-summary h3 {
-            margin-bottom: 15px;
-            color: #088178;
-        }
+.customer-details, .payment-details {
+    width: 48%;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 5px;
+}
 
-        .order-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
+.customer-details h3, .payment-details h3, .order-summary h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #333;
+}
 
-        .order-total {
-            margin-top: 20px;
-            font-size: 18px;
-        }
+.customer-details p, .payment-details p {
+    margin-bottom: 10px;
+}
 
-        .btn-confirm {
-            background-color: #088178;
-            color: #fff;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            display: block;
-            margin: 20px auto 0;
-        }
+.order-summary {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
 
-        .btn-confirm:hover {
-            background-color: #066c65;
-        }
+.btn-confirm {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    display: block;
+    width: 100%;
+}
 
-        .success-message, .error-message {
-            text-align: center;
-            padding: 10px;
-            margin-bottom: 20px;
-            border-radius: 4px;
-        }
+.btn-confirm:hover {
+    background-color: #45a049;
+}
 
-        .success-message {
-            background-color: #d4edda;
-            color: #155724;
-        }
+.success-message, .error-message {
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+}
 
-        .error-message {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
+.success-message {
+    background-color: #d4edda;
+    color: #155724;
+}
 
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+}
         
         footer {
             background-color: #E3E6F3;
@@ -172,21 +196,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </section>
 
-    <section id="checkout" class="section-p1">
-        <h2>Checkout</h2>
-        <?php if (isset($successMessage)): ?>
-            <div class="success-message"><?php echo $successMessage; ?></div>
-        <?php elseif (isset($errorMessage)): ?>
-            <div class="error-message"><?php echo $errorMessage; ?></div>
-        <?php else: ?>
+<section id="checkout" class="section-p1">
+    <h2>Checkout</h2>
+    <?php if (isset($successMessage)): ?>
+        <div class="success-message"><?php echo $successMessage; ?></div>
+    <?php elseif (isset($errorMessage)): ?>
+        <div class="error-message"><?php echo $errorMessage; ?></div>
+    <?php else: ?>
+        <div class="checkout-details">
             <div class="customer-details">
                 <h3>Customer Details</h3>
-                <p>Name: <?php echo $customerDetails['name']; ?></p>
-                <p>Email: <?php echo $customerDetails['email']; ?></p>
-                <p>Address: <?php echo $customerDetails['address']; ?></p>
+                <p><strong>Name:</strong> <?php echo $customerDetails['name']; ?></p>
+                <p><strong>Email:</strong> <?php echo $customerDetails['email']; ?></p>
+                <p><strong>Shipping Address:</strong> <?php echo $shippingAddress; ?></p>
             </div>
-
-            <div class="order-summary">
+            <div class="payment-details">
+                <h3>Payment Details</h3>
+                <p><strong>Card Number:</strong> **** **** **** <?php echo substr($paymentDetails['card_number'], -4); ?></p>
+                <p><strong>Card Holder:</strong> <?php echo $paymentDetails['card_holder']; ?></p>
+                <p><strong>Expiry:</strong> <?php echo $paymentDetails['expiry_month'] . '/' . $paymentDetails['expiry_year']; ?></p>
+            </div>
+        </div>
+        <div class="order-summary">
+            <h3>Order Summary</h3>
                 <h3>Order Summary</h3>
                 <?php foreach ($cartItems as $item): ?>
                     <div class="order-item">
@@ -197,11 +229,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="order-total">
                     <strong>Total: $<?php echo $cartTotal; ?></strong>
                 </div>
-            </div>
-
-            <form method="POST" action="">
-                <button type="submit" class="btn btn-confirm">Confirm and Pay</button>
-            </form>
+                <p><strong>Total:</strong> $<?php echo number_format($cartTotal, 2); ?></p>
+        </div>
+        <form method="POST" action="">
+            <button type="submit" class="btn btn-confirm">Confirm and Pay</button>
+        </form>
         <?php endif; ?>
     </section>
 

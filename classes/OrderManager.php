@@ -24,4 +24,16 @@ class OrderManager {
         $this->cart->clearCart();
         $this->saveCartToSession();
     }
+    // function for save the payment details
+    public function savePaymentDetails($orderId, $paymentDetails) {
+        $stmt = $this->db->prepare("INSERT INTO payment_details (order_id, card_number, card_holder, expiry_month, expiry_year, cvv) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->execute([
+            $orderId,
+            $paymentDetails['card_number'],
+            $paymentDetails['card_holder'],
+            $paymentDetails['expiry_month'],
+            $paymentDetails['expiry_year'],
+            $paymentDetails['cvv']
+        ]);
+    }
 }
