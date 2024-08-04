@@ -34,7 +34,7 @@ class Feedback {
     }
 
     public static function viewFeedback() {
-        // retrieve and display feedback
+
     }
 }
 ?>
