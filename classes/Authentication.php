@@ -59,7 +59,7 @@ class Authentication {
     private function setOwnerSession($owner) {
         $_SESSION['user_id'] = $owner->getId();
         $_SESSION['username'] = $owner->getUsername();
-        $_SESSION['is_admin'] = false;
+        $_SESSION['is_owner'] = true;
     }
 
     public function logout() {

@@ -1,7 +1,7 @@
 <?php
 session_start();
-if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
-    header('location: login2_form.php');
+if (!isset($_SESSION['is_owner']) || $_SESSION['is_owner'] !== true) {
+    header('location: login.php');
     exit();
 }
 ?>
