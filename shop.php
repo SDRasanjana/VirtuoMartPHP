@@ -79,6 +79,7 @@ $products = $cartManager->getAllProducts();
     </section>
   
   <section id="pagination" class="section-p1">
+    <a href="customizeorder.php">Customize Order</a>
     <a href="#">1</a>
 	<a href="#">2</a>
 	<a href="#"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>

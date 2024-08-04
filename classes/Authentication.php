@@ -13,7 +13,7 @@ class Authentication {
         $this->deliveryMember = $deliveryMember;
         $this->owner = $owner;
     }
-
+    // authenticate users and redirect to their respective interfaces.
     public function authenticate($username, $password) {
         session_start();
         if ($this->admin->authenticate($username, $password)) {
@@ -37,7 +37,7 @@ class Authentication {
 
         return false;
     }
-
+    // set the sessions for the users
     private function setAdminSession($admin) {
         $_SESSION['user_id'] = $admin->getId();
         $_SESSION['username'] = $admin->getUsername();
@@ -59,7 +59,7 @@ class Authentication {
     private function setOwnerSession($owner) {
         $_SESSION['user_id'] = $owner->getId();
         $_SESSION['username'] = $owner->getUsername();
-        $_SESSION['is_admin'] = false;
+        $_SESSION['is_owner'] = true;
     }
 
     public function logout() {

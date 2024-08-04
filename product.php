@@ -12,11 +12,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     exit;
 }
 
-$productId = $_GET['id'] ?? 1; // Default to product ID 1 if not specified
+$productId = $_GET['id'] ?? 1; // Default to product ID as 1 if not specific
 $product = $cartManager->getProductById($productId);
 
 if (!$product) {
-    // Handle product not found
+    // if product not found
     header('Location: shop.php');
     exit;
 }
