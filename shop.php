@@ -129,7 +129,7 @@ $products = $cartManager->getAllProducts();
 		<a href="#">Sign In</a>
 		<a href="#">View Cart</a>
 		<a href="#">My Whishlist</a>
-		<a href="#">Track My Order</a>
+		<a href="rating.php">Reviews</a>
 		<a href="#">Help</a>
 	</div>
 	
