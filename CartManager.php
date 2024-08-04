@@ -27,6 +27,11 @@ class CartManager {
         $this->cart->removeItem($productId);
         $this->saveCartToSession();
     }
+    //for the checkout proceess
+    public function clearCart() {
+        $this->cart->clearCart();
+        $this->saveCartToSession();
+    }
 
     public function updateQuantity($productId, $quantity) {
         $this->cart->updateQuantity($productId, $quantity);
