@@ -194,7 +194,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                 </tr>
             </thead>
             <tbody>
-                <!-- Order data will be inserted here -->
+                <!-- Order data -->
             </tbody>
         </table>
 
@@ -209,7 +209,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                 </tr>
             </thead>
             <tbody>
-                <!-- Review data will be inserted here -->
+                <!-- Review data-->
             </tbody>
         </table>
 
@@ -266,7 +266,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                 </tr>
             </thead>
             <tbody>
-                <!-- Payment data will be inserted here -->
+                <!-- Payment -->
             </tbody>
         </table>
 
