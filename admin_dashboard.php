@@ -187,7 +187,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
         <table id="orders-table">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>Customer ID</th>
                     <th>Date</th>
                     <th>Price</th>
                     <th>Status</th>
@@ -199,7 +199,7 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                 $dbconnector = new DbConnector();
                 $con = $dbconnector->getConnection();
 
-                // read all rows from product table
+                // read all rows from order table
                 $sql = "SELECT * FROM orders";
                 $result = $con->query($sql);
 
@@ -227,11 +227,33 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
             <thead>
                 <tr>
                     <th>Rating</th>
+                    <th>Title</th>
                     <th>Review</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Review data-->
+            <?php
+                require_once './DbConnector.php';
+                $dbconnector = new DbConnector();
+                $con = $dbconnector->getConnection();
+
+                // read all rows from review table
+                $sql = "SELECT * FROM customer_reviews ";
+                $result = $con->query($sql);
+
+                if (!$result) {
+                    die("Invalid query: " . $con->errorInfo());
+                }
+                // table data
+                while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                    echo "<tr>
+                        <td>" . $row["rating"] . "</td>
+                        <td>" . $row["title"] . "</td>
+                        <td>" . $row["review_text"] . "</td>
+                        </tr>";
+                }
+
+                ?>
             </tbody>
         </table>
 
