@@ -34,8 +34,7 @@ class Feedback {
     }
 
     public static function viewFeedback() {
-        // This method would retrieve and display feedback
-        // Implementation depends on how you want to view feedback
+        
     }
 }
 ?>
