@@ -19,7 +19,7 @@ $cartTotal = $cartManager->getCartTotal();
 
 // Check whether the payment details are set
 if (!isset($_SESSION['payment_details']) || !isset($_SESSION['shipping_address'])) {
-    header('Location: pay.php');
+    header('Location: payment.php');
     exit;
 }
 
