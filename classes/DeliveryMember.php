@@ -1,6 +1,7 @@
 
 <?php
 class DeliveryMember extends User {
+    //authenticate function to check whether the delivery member already exists in the database
     public function authenticate($username, $password) {
         $conn = $this->db->getConnection();
         $stmt = $conn->prepare("SELECT delivery_mem_id, username, phone_no, password FROM delivery_member WHERE username = ?");

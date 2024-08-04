@@ -14,7 +14,7 @@ class Feedback {
     }
 
     public function giveFeedback() {
-        // This method would handle inserting the feedback into the database
+        //insert feedback into the database
         require_once './DbConnector.php';
         try {
             $dbConnector = new DbConnector();
@@ -34,8 +34,7 @@ class Feedback {
     }
 
     public static function viewFeedback() {
-        // This method would retrieve and display feedback
-        // Implementation depends on how you want to view feedback
+        // retrieve and display feedback
     }
 }
 ?>
