@@ -121,7 +121,7 @@ $cartTotal = $cartManager->getCartTotal();
                     <td><strong>$<?php echo $cartTotal; ?></strong></td>
                 </tr>
             </table>
-            <a href="pay.php"><button class="normal">Proceed to checkout</button></a>
+            <a href="payment.php"><button class="normal">Proceed to payment</button></a>
         </div>
     </section>
   <footer class="section-p1">
