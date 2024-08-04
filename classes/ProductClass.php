@@ -15,12 +15,22 @@ class Product {
         $this->imageUrl = $imageUrl;
     }
 
-    // Getters
-    public function getId() { return $this->id; }
-    public function getName() { return $this->name; }
-    public function getDescription() { return $this->description; }
-    public function getPrice() { return $this->price; }
-    public function getImageUrl() { return $this->imageUrl; }
+
+    public function getId() {
+         return $this->id; 
+        }
+    public function getName() {
+         return $this->name; 
+        }
+    public function getDescription() {
+         return $this->description;
+         }
+    public function getPrice() {
+         return $this->price;
+         }
+    public function getImageUrl() {
+         return $this->imageUrl;
+         }
 
     public function addProduct() {
         
@@ -46,18 +56,18 @@ class Product {
         $target_file = $upload_dir . time() . '_' . $file_name;
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
-        // Check if image file is a actual image or fake image
+        // Check image size
         $check = getimagesize($file['tmp_name']);
         if ($check === false) {
             throw new Exception("File is not an image.");
         }
 
-        // Check file size (limit to 5MB)
+        //file limit to 5MB
         if ($file['size'] > 5000000) {
             throw new Exception("Sorry, your file is too large.");
         }
 
-        // Allow certain file formats
+        // give permision for some file formats
         if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
             throw new Exception("Sorry, only JPG, JPEG, PNG & GIF files are allowed.");
         }
