@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'image_path' => $imageDestination ?? null
     ];
 
-    // You can save $data to a database or process it as needed
+    // data to a database or process it as needed
     echo "Form submitted successfully!";
 } else {
     echo "Invalid request method.";

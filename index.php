@@ -435,7 +435,7 @@ session_start();
 	</div>
   </footer>
 
-                       <!--serching item-->
+                       <!--javascript code for serching item-->
 
 <script type="text/javascript">
   function search() {

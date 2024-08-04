@@ -20,7 +20,7 @@ class CustomOrder {
     }
 
     public function uploadPhoto($file) {
-        $upload_dir = 'img/uploads/'; // Relative path
+        $upload_dir = 'img/uploads/'; // file path
         $file_name = basename($file['name']);
         $target_file = $upload_dir . time() . '_' . $file_name; // Add timestamp to ensure unique filenames
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));

@@ -66,7 +66,7 @@
                     <label for="state">State</label>
                     <select class="form-control" id="state">
                         <option selected>Choose...</option>
-                        <!-- Add more state options here -->
+                        
                     </select>
                 </div>
                 <button type="submit" class="btn btn-info update-btn">Update</button>

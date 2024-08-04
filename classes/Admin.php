@@ -1,6 +1,7 @@
 <?php
-
+//admin class
 class Admin extends User {
+    //authenticate function to check whether the admin already exists in the database
     public function authenticate($username, $password) {
         $conn = $this->db->getConnection();
         $stmt = $conn->prepare("SELECT id, username, email, password FROM admin WHERE username = ?");
