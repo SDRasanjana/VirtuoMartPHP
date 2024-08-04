@@ -114,13 +114,14 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
                 <div class="chat-container">
                     <h2>Chat Function</h2>
                     <div id="chat-messages" style="height: 300px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px;">
-                        <!-- Chat messages will appear here -->
+                        <!-- Chat function-->
                     </div>
                     <input type="text" id="chat-input" placeholder="Type your message..." style="width: 100%; margin-top: 10px;">
                     <button id="send-message" class="btn btn-primary" style="margin-top: 10px;">Send</button>
                 </div>
             </div>
         </div>
+        <button class="btn"><i class="fas fa-chart-bar"></i> View Daily & Weekly Report</button>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
