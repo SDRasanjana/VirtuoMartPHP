@@ -53,6 +53,7 @@
     <div class="container">
         <div class="dashboard-container">
             <h1>Delivery Dashboard</h1>
+            <h1>Delivery Dashboard</h1>
             <form>
                 <div class="form-group">
                     <label for="orderID">Order ID</label>
