@@ -74,6 +74,7 @@ if (isset($_POST['update_product'])) {
 }
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -119,6 +120,7 @@ if (isset($_POST['update_product'])) {
                     $stmt = $con->query("SELECT COUNT(*) FROM registered_customer");
                     echo $stmt->fetchColumn();
                 ?></p>
+                <p id="num-customers"><? echo $total_customers;?></p>
             </div>
             <div class="stat-box">
                 <h2>Total Products</h2>
