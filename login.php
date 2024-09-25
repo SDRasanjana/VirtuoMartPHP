@@ -64,11 +64,13 @@
             margin-bottom: 15px;
         }
 
-        .error, .success {
-            padding: 10px;
-            background: #f1f1f1;
-            margin-bottom: 20px;
-            border-radius: 4px;
+        .error {
+            color: red; 
+            font-size: 14px; 
+            margin-bottom: 10px; 
+            padding: 0; 
+            background: none; 
+            border: none; 
         }
 
         .page-banner {
@@ -128,13 +130,22 @@
         </div>
     </div>
     <script>
-        window.onload = function() {
-        var error = getUrlParameter('error');
-        if (error) {
-            var messageContainer = document.getElementById('messageContainer');
-            messageContainer.innerHTML = '<div class="error">' + error + '</div>';
-         }
-    }
+         // Function to get URL parameter
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        // Display the message if exists
+        window.onload = function () {
+            var error = getUrlParameter('error');
+            if (error) {
+                var messageContainer = document.getElementById('messageContainer');
+                messageContainer.innerHTML = '<div class="error">' + error + '</div>';
+            }
+        }
     </script>
 
 </body>

@@ -1,7 +1,11 @@
-
 <?php
 class DeliveryMember extends User {
-    //authenticate function to check whether the delivery member already exists in the database
+    private $delivery_mem_id;
+    private $phone_no;
+
+    public function __construct($db) {
+        parent::__construct($db);
+    }
     public function authenticate($username, $password) {
         $conn = $this->db->getConnection();
         $stmt = $conn->prepare("SELECT delivery_mem_id, username, phone_no, password FROM delivery_member WHERE username = ?");
@@ -21,5 +25,21 @@ class DeliveryMember extends User {
 
         return false;
     }
+
+    public function updateOrderState($order_id, $state) {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("UPDATE orders SET status = ? WHERE id = ?");
+        $stmt->bind_param('si', $state, $order_id);
+        return $stmt->execute();
+    }
+
+    public function getOrderCountByState($state) {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("SELECT COUNT(*) as count FROM orders WHERE status = ?");
+        $stmt->bind_param('s', $state);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        return $row['count'];
+    }
 }
-?>

@@ -29,10 +29,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         header('Location: index.php?username=' . urlencode($_SESSION['username']));
         exit();
     }elseif ($result === 'delivery_member') {
+        //set session variable
+        $_SESSION['is_delivery_member'] = true;
+        $_SESSION['delivery_mem_id'] = $deliveryMember->getId(); 
         header('Location: delivery_dashboard.php');
         exit();
     } elseif ($result === 'owner') {
-        header('Location: owner_dashboard.php');
+        header('Location: owner_dashboard/owner_dashboard.php');
         exit();
     } else {
         $error_message = "Invalid username or password";
