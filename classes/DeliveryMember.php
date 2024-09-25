@@ -1,5 +1,7 @@
 <?php
 class DeliveryMember extends User {
+    private $delivery_mem_id;
+    private $phone_no;
 
     public function __construct($db) {
         parent::__construct($db);

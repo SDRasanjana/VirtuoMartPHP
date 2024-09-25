@@ -5,6 +5,9 @@ if (!isset($_SESSION['is_admin']) || $_SESSION['is_admin'] !== true) {
     header('location: login2_form.php');
     exit();
 }
+
+require_once './DbConnector.php';
+$dbconnector = new DbConnector();
 $con = $dbconnector->getConnection();
 
 // manipulating customer deletion
@@ -122,6 +125,7 @@ if (isset($_POST['update_product'])) {
                 <p id="num-products"><?php 
                     $stmt = $con->query("SELECT COUNT(*) FROM products");
                     echo $stmt->fetchColumn();
+                ?></p>
             </div>
             <div class="stat-box">
                 <h2>Total Orders</h2>
@@ -145,7 +149,6 @@ if (isset($_POST['update_product'])) {
                 </tr>
             </thead>
             <tbody>
-                    $dsql = "DELETE FROM `registered_customer` WHERE `id` = '$id'";
                 <?php
                 $sql = "SELECT * FROM registered_customer";
                 $result = $con->query($sql);
@@ -156,8 +159,8 @@ if (isset($_POST['update_product'])) {
 
                 while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
                     echo "<tr>
-                       <td>" . $row["email"] . "</td>
                        <td>" . htmlspecialchars($row["id"]) . "</td>
+                       <td>" . htmlspecialchars($row["name"]) . "</td>
                        <td>" . htmlspecialchars($row["email"]) . "</td>
                        <td><a class='btn btn-danger' href='admin_dashboard.php?delete_customer_id=" . $row["id"] . "' onclick='return confirm(\"Are you sure you want to delete this customer?\");'>Delete</a></td>
                        </tr>";
@@ -181,7 +184,6 @@ if (isset($_POST['update_product'])) {
             </thead>
             <tbody>
                 <?php
-                    $dsql = "DELETE FROM `products` WHERE `id` = '$id'";
                 $sql = "SELECT * FROM products";
                 $result = $con->query($sql);
 
@@ -191,6 +193,7 @@ if (isset($_POST['update_product'])) {
 
                 while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
                     echo "<tr>
+                       <td>" . htmlspecialchars($row["id"]) . "</td>
                        <td>" . htmlspecialchars($row["name"]) . "</td>
                        <td>" . htmlspecialchars($row["price"]) . "</td>
                        <td>
@@ -200,6 +203,7 @@ if (isset($_POST['update_product'])) {
                        </tr>";
                     echo "<div class='modal fade' id='updateModal" . $row["id"] . "' tabindex='-1' aria-labelledby='updateModalLabel" . $row["id"] . "' aria-hidden='true'>
                        <div class='modal-dialog'>
+                           <div class='modal-content'>
                                <div class='modal-header'>
                                    <h5 class='modal-title' id='updateModalLabel" . $row["id"] . "'>Update Product</h5>
                                    <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>

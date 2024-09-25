@@ -110,14 +110,13 @@ $delivered_count = $delivery_member->getOrderCountByState('delivered');
                 </div>
                 <div class="form-group">
                     <label for="state">State</label>
-                    <select class="form-control" id="state">
                     <select class="form-control" id="state" name="state" required>
+                        <option value="">Choose...</option>
                         <option value="processing">Processing</option>
                         <option value="shipped">Shipped</option>
                         <option value="delivered">Delivered</option>
                     </select>
                 </div>
-                <button type="submit" class="btn btn-info update-btn">Update</button>
                 <button type="submit" class="btn btn-primary update-btn">Update</button>
             </form>
             
