@@ -75,7 +75,7 @@
                             if (!empty($_FILES['image']['name'])) {
                                 $image_path = Product::uploadImage($_FILES['image']);
                             }
-                            $product = new Product($name, $description, $price,'', $image_path);
+                            $product = new Product(null, $name, $description, $price, $image_path);
                             if ($product->addProduct()) {
                                 echo "<div class='alert alert-success'>Product added successfully.</div>";
                             } else {

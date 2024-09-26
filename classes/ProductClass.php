@@ -11,7 +11,7 @@ class Product {
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;
-        $this->price = $price;
+        $this->price = floatval($price);
         $this->imageUrl = $imageUrl;
     }
 
@@ -41,7 +41,7 @@ class Product {
             
             $stmt->bindParam(':name', $this->name);
             $stmt->bindParam(':description', $this->description);
-            $stmt->bindParam(':price', $this->price);
+            $stmt->bindParam(':price', $this->price, PDO::PARAM_STR);
             $stmt->bindParam(':image_url', $this->imageUrl);
             
             return $stmt->execute();

@@ -121,7 +121,7 @@ if (!isset($_SESSION['is_owner']) || $_SESSION['is_owner'] !== true) {
                 </div>
             </div>
         </div>
-        <button class="btn"><i class="fas fa-chart-bar"></i> View Daily & Weekly Report</button>
+        <a href="report_form.php"> <button class="btn"><i class="fas fa-chart-bar"></i>View Daily & Weekly Report</button></a>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

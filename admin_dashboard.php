@@ -350,7 +350,7 @@ if (isset($_POST['update_product'])) {
             </tbody>
         </table>
 
-        <button class="btn"><i class="fas fa-chart-bar"></i> View Daily & Weekly Report</button>
+        <a href="report_form.php"> <button class="btn"><i class="fas fa-chart-bar"></i>View Daily & Weekly Report</button></a>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="admin_script.js"></script>
