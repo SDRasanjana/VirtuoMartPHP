@@ -82,11 +82,28 @@ session_start();
         <input type = "text" name="" id="find" placeholder="search products..." onkeyup="search()">
 		<button class="btn">Search</button>
       </div>
+
+	  <div id="buttons">
+        <button class="button-value" onclick="filterProduct('all')">All</button>
+        <button class="button-value" onclick="filterProduct('Gents')">
+          Gents
+        </button>
+        <button class="button-value" onclick="filterProduct('Ladies')">
+          Ladies
+        </button>
+        <button class="button-value" onclick="filterProduct('Kids')">
+          Kids
+        </button>
+        <button class="button-value" onclick="filterProduct('Others')">
+          Others
+        </button>
+      </div>
+
     </div>
 
 
 	 <div class="pro-container">
-	    <div class="pro">
+	    <div class="pro" data-category="Gents">
 		   <img src="img/products/f1.jpg">
 		    <div class="des">
 			  <span>adidas</span>
@@ -101,7 +118,7 @@ session_start();
 			</div>
 			<a href="#"><i class="fa fa-shopping-cart  cart"></i></a>
 		</div>
-		<div class="pro">
+		<div class="pro" data-category="Gents">
 		   <img src="img/products/f2.jpg">
 		    <div class="des">
 			  <span>adidas</span>
@@ -116,7 +133,7 @@ session_start();
 			</div>
 			<a href="#"><i class="fa fa-shopping-cart  cart"></i></a>
 		</div>
-		<div class="pro">
+		<div class="pro" data-category="Gents">
 		   <img src="img/products/f3.jpg">
 		    <div class="des">
 			  <span>adidas</span>
@@ -131,7 +148,7 @@ session_start();
 			</div>
 			<a href="#"><i class="fa fa-shopping-cart  cart"></i></a>
 		</div>
-		<div class="pro">
+		<div class="pro" data-category="Gents">
 		   <img src="img/products/f4.jpg">
 		    <div class="des">
 			  <span>adidas</span>
@@ -146,7 +163,7 @@ session_start();
 			</div>
 			<a href="#"><i class="fa fa-shopping-cart  cart"></i></a>
 		</div>
-		<div class="pro">
+		<div class="pro" data-category="Ladies">
 		   <img src="img/products/f5.jpg">
 		    <div class="des">
 			  <span>adidas</span>
@@ -161,7 +178,7 @@ session_start();
 			</div>
 			<a href="#"><i class="fa fa-shopping-cart  cart"></i></a>
 		</div>
-		<div class="pro">
+		<div class="pro" data-category="Kids">
 		   <img src="img/products/f6.jpg">
 		    <div class="des">
 			  <span>adidas</span>
@@ -176,7 +193,7 @@ session_start();
 			</div>
 			<a href="#"><i class="fa fa-shopping-cart  cart"></i></a>
 		</div>
-		<div class="pro">
+		<div class="pro" data-category="Ladies">
 		   <img src="img/products/f7.jpg">
 		    <div class="des">
 			  <span>adidas</span>
@@ -191,7 +208,7 @@ session_start();
 			</div>
 			<a href="#"><i class="fa fa-shopping-cart  cart"></i></a>
 		</div>
-		<div class="pro">
+		<div class="pro" data-category="Ladies">
 		   <img src="img/products/f8.jpg">
 		    <div class="des">
 			  <span>adidas</span>
@@ -219,7 +236,7 @@ session_start();
      <h2>New Arrivals</h2>
 	 <p>Summer Collection New Modern Design</p>
 	 <div class="pro-container">
-	    <div class="pro">
+	    <div class="pro" data-category="Gents">
 		   <img src="img/products/n1.jpg">
 		    <div class="des">
 			  <span>adidas</span>
@@ -234,7 +251,7 @@ session_start();
 			</div>
 			<a href="#"><i class="fa fa-shopping-cart  cart"></i></a>
 		</div>
-		<div class="pro">
+		<div class="pro" data-category="Gents">
 		   <img src="img/products/n2.jpg">
 		    <div class="des">
 			  <span>adidas</span>
@@ -249,7 +266,7 @@ session_start();
 			</div>
 			<a href="#"><i class="fa fa-shopping-cart  cart"></i></a>
 		</div>
-		<div class="pro">
+		<div class="pro" data-category="Gents">
 		   <img src="img/products/n3.jpg">
 		    <div class="des">
 			  <span>adidas</span>
@@ -264,7 +281,7 @@ session_start();
 			</div>
 			<a href="#"><i class="fa fa-shopping-cart  cart"></i></a>
 		</div>
-		<div class="pro">
+		<div class="pro" data-category="Gents">
 		   <img src="img/products/n4.jpg">
 		    <div class="des">
 			  <span>adidas</span>
@@ -279,7 +296,7 @@ session_start();
 			</div>
 			<a href="#"><i class="fa fa-shopping-cart  cart"></i></a>
 		</div>
-		<div class="pro">
+		<div class="pro" data-category="Gents">
 		   <img src="img/products/n5.jpg">
 		    <div class="des">
 			  <span>adidas</span>
@@ -294,7 +311,7 @@ session_start();
 			</div>
 			<a href="#"><i class="fa fa-shopping-cart  cart"></i></a>
 		</div>
-		<div class="pro">
+		<div class="pro" data-category="Gents">
 		   <img src="img/products/n6.jpg">
 		    <div class="des">
 			  <span>adidas</span>
@@ -309,7 +326,7 @@ session_start();
 			</div>
 			<a href="#"><i class="fa fa-shopping-cart  cart"></i></a>
 		</div>
-		<div class="pro">
+		<div class="pro" data-category="Gents">
 		   <img src="img/products/n7.jpg">
 		    <div class="des">
 			  <span>adidas</span>
@@ -324,7 +341,7 @@ session_start();
 			</div>
 			<a href="#"><i class="fa fa-shopping-cart  cart"></i></a>
 		</div>
-		<div class="pro">
+		<div class="pro" data-category="Gents">
 		   <img src="img/products/n8.jpg">
 		    <div class="des">
 			  <span>adidas</span>
@@ -456,8 +473,39 @@ session_start();
 }
 </script>
 
+      <!--Flter option -->
+<script>
+    function filterProduct(category) {
+        let products = document.querySelectorAll('.pro');
+        products.forEach(product => {
+            if (category === 'all' || product.dataset.category === category) {
+                product.style.display = 'block';
+            } else {
+                product.style.display = 'none';
+            }
+        });
+
+
+        let buttons = document.querySelectorAll('.button-value');
+        buttons.forEach(button => {
+            if (button.textContent.trim().toLowerCase() === category) {
+                button.classList.add('active');
+            } else {
+                button.classList.remove('active');
+            }
+        });
+    }
+    </script>
+
+
 
   <script src="script.js"></script>
+
+  <script>
+  window.onload = function() {
+	filterProduct('all');} 
+  </script>
+
   <script>
 	//check the user name parameter to display the username and logout button
     window.onload = function() {

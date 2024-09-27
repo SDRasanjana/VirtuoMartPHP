@@ -37,3 +37,15 @@
     margin-top: 0.5px;
 }
 
+.button-value {
+    border: 2px solid #088178;
+    padding: 10px 40px;
+    border-radius: 3em;
+    background-color: transparent;
+    color: #088178;
+    cursor: pointer;
+  }
+  .active {
+    background-color: #088178;
+    color: #ffffff;
+  }
