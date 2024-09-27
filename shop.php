@@ -52,6 +52,23 @@ $products = $cartManager->getAllProducts();
         <input type = "text" name="" id="find" placeholder="search products..." onkeyup="search()">
 		<button class="btn">Search</button>
     </div>
+
+	<div id="buttons">
+        <button class="button-value" onclick="filterProduct('all')">All</button>
+        <button class="button-value" onclick="filterProduct('Gents')">
+          Gents
+        </button>
+        <button class="button-value" onclick="filterProduct('Ladies')">
+          Ladies
+        </button>
+        <button class="button-value" onclick="filterProduct('Kids')">
+          Kids
+        </button>
+        <button class="button-value" onclick="filterProduct('Others')">
+          Others
+        </button>
+      </div>
+
     </div>
 
 	
@@ -168,6 +185,37 @@ $products = $cartManager->getAllProducts();
 }
 </script>
 
+       <!--Flter option -->
+	<script>
+    function filterProduct(category) {
+        let products = document.querySelectorAll('.pro');
+        products.forEach(product => {
+            if (category === 'all' || product.dataset.category === category) {
+                product.style.display = 'block';
+            } else {
+                product.style.display = 'none';
+            }
+        });
+
+
+        let buttons = document.querySelectorAll('.button-value');
+        buttons.forEach(button => {
+            if (button.textContent.trim().toLowerCase() === category) {
+                button.classList.add('active');
+            } else {
+                button.classList.remove('active');
+            }
+        });
+    }
+    </script>
+
   <script src="script.js"></script>
+
+  <script>
+  window.onload = function() {
+	filterProduct('all');} 
+  </script>
+
+
   </body>
 </html>
