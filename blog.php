@@ -15,7 +15,7 @@ session_start();
   
   <body>
   <section id="header">
-    <a href="#"><img src="img/logo.jpg" class="logo" alt="logo"</a> 
+    <a href="#"><img src="img/logo.jpg" class="logo" alt="logo"></a>
 	<div>
 	 <ul id="navbar">
 	    <li><a href="index.php">Home</a></li>
