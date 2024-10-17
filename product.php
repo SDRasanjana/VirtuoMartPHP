@@ -81,11 +81,12 @@ if (!$product) {
                 <input type="hidden" name="product_id" value="<?php echo $product->getId(); ?>">
                 <select>
                     <option>Select Size</option>
+                    <option>XS</option>
+                    <option>S</option>
+                    <option>M</option>
+                    <option>L</option>
                     <option>XL</option>
-                    <option>XXL</option>
-                    <option>Small</option>
-                    <option>Large</option>
-                    <option>Medium</option>
+					<option>XXL</option>
                 </select>
                 <input type="number" name="quantity" value="1" min="1">
                 <button type="submit" name="add_to_cart" class="normal">Add To Cart</button>
