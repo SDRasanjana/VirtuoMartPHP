@@ -74,27 +74,27 @@ $products = $cartManager->getAllProducts();
     </div>
 
 
-  <section id="product1" class="section-p1">
+    <section id="product1" class="section-p1">
     <div class="pro-container">
-      <?php foreach ($products as $product): ?>
-        <div class="pro" onclick="window.location.href='product.php?id=<?php echo $product->getId(); ?>';">
-          <img src="<?php echo $product->getImageUrl(); ?>" alt="<?php echo $product->getName(); ?>">
-          <div class="des">
-            <span>adidas</span>
-            <h5><?php echo $product->getName(); ?></h5>
-            <div class="stars">
-              <i class="fa fa-star"></i>
-              <i class="fa fa-star"></i>
-              <i class="fa fa-star"></i>
-              <i class="fa fa-star"></i>
+        <?php foreach ($products as $product): ?>
+            <div class="pro" onclick="window.location.href='product.php?id=<?php echo $product->getId(); ?>';" data-category="<?php echo $product->getCategory(); ?>">
+                <img src="<?php echo $product->getImageUrl(); ?>" alt="<?php echo $product->getName(); ?>">
+                <div class="des">
+                    <span>adidas</span>
+                    <h5><?php echo $product->getName(); ?></h5>
+                    <div class="stars">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </div>
+                    <h4>$<?php echo $product->getPrice(); ?></h4>
+                </div>
+                <a href="#"><i class="fa fa-shopping-cart cart"></i></a>
             </div>
-            <h4>$<?php echo $product->getPrice(); ?></h4>
-          </div>
-          <a href="#"><i class="fa fa-shopping-cart cart"></i></a>
-        </div>
-      <?php endforeach; ?>
+        <?php endforeach; ?>
     </div>
-  </section>
+</section>
 
   <section id="pagination" class="section-p1">
     <a href="customizeorder.php">Customize Order</a>
@@ -168,55 +168,59 @@ $products = $cartManager->getAllProducts();
 	</div>
   </footer>
 
-  <!--serching item-->
-  <script type="text/javascript">
-    function search() {
-      let filter = document.getElementById('find').value.toUpperCase();
-      let item = document.querySelectorAll('.pro');
-      let l = document.getElementsByTagName('h5');
-      for (var i = 0; i <= l.length; i++) {
-        let a = item[i].getElementsByTagName('h5')[0];
-        let value = a.innerHTML || a.innerText || a.textContent;
-        if (value.toUpperCase().indexOf(filter) > -1) {
-          item[i].style.display = "";
-        } else {
-          item[i].style.display = "none";
-        }
-      }
-    }
-  </script>
-
-  <!--Flter option -->
   <script>
-    function filterProduct(category) {
-      let products = document.querySelectorAll('.pro');
-      products.forEach(product => {
-        if (category === 'all' || product.dataset.category === category) {
-          product.style.display = 'block';
+//filter option
+let currentCategory = 'all';
+
+function filterProduct(category) {
+    currentCategory = category.toLowerCase();
+    let products = document.querySelectorAll('.pro');
+    products.forEach(product => {
+        if (currentCategory === 'all' || product.dataset.category.toLowerCase() === currentCategory) {
+            product.style.display = 'block';
         } else {
-          product.style.display = 'none';
+            product.style.display = 'none';
         }
-      });
+    });
 
-
-      let buttons = document.querySelectorAll('.button-value');
-      buttons.forEach(button => {
-        if (button.textContent.trim().toLowerCase() === category) {
-          button.classList.add('active');
+    let buttons = document.querySelectorAll('.button-value');
+    buttons.forEach(button => {
+        if (button.textContent.trim().toLowerCase() === currentCategory) {
+            button.classList.add('active');
         } else {
-          button.classList.remove('active');
+            button.classList.remove('active');
         }
-      });
-    }
-  </script>
+    });
 
-  <script src="script.js"></script>
+    // Clear the search input when changing categories
+    document.getElementById('find').value = '';
+}
+//search option
+function search() {
+    let filter = document.getElementById('find').value.toUpperCase();
+    let items = document.querySelectorAll('.pro');
+    
+    items.forEach(item => {
+        let h5 = item.getElementsByTagName('h5')[0];
+        let txtValue = h5.textContent || h5.innerText;
+        
+        if (txtValue.toUpperCase().indexOf(filter) > -1 && 
+            (currentCategory === 'all' || item.dataset.category.toLowerCase() === currentCategory)) {
+            item.style.display = "";
+        } else {
+            item.style.display = "none";
+        }
+    });
+}
 
-  <script>
-    window.onload = function() {
-      filterProduct('all');
-    }
-  </script>
+window.onload = function() {
+    filterProduct('all');
+    
+    // Add event listener for the search input
+    document.getElementById('find').addEventListener('input', search);
+}
+</script>
+
  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 </body>
