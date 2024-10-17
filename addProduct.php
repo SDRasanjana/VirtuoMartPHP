@@ -53,6 +53,47 @@
                     <label for="description" class="form-label">Description:</label>
                     <textarea class="form-control" id="description" name="description" rows="3" placeholder="Product description"></textarea>
                 </div>
+                <div class="row mb-3">
+                <div class="col-md-12">
+                    <label class="form-label">Sizes:</label>
+                    <div>
+                        <div class="size-checkbox">
+                            <input type="checkbox" id="size-xs" name="sizes[]" value="XS">
+                            <label for="size-xs">XS</label>
+                        </div>
+                        <div class="size-checkbox">
+                            <input type="checkbox" id="size-s" name="sizes[]" value="S">
+                            <label for="size-s">S</label>
+                        </div>
+                        <div class="size-checkbox">
+                            <input type="checkbox" id="size-m" name="sizes[]" value="M">
+                            <label for="size-m">M</label>
+                        </div>
+                        <div class="size-checkbox">
+                            <input type="checkbox" id="size-l" name="sizes[]" value="L">
+                            <label for="size-l">L</label>
+                        </div>
+                        <div class="size-checkbox">
+                            <input type="checkbox" id="size-xl" name="sizes[]" value="XL">
+                            <label for="size-xl">XL</label>
+                        </div>
+                        <div class="size-checkbox">
+                            <input type="checkbox" id="size-xxl" name="sizes[]" value="XXL">
+                            <label for="size-xxl">XXL</label>
+                        </div>
+                    </div>
+                </div>
+                    <div class="col-md-6">
+                        <label for="category" class="form-label">Category:</label>
+                        <select class="form-control" id="category" name="category">
+                            <option value="">Select Category</option>
+                            <option value="Gents">Gents</option>
+                            <option value="Ladies">Ladies</option>
+                            <option value="Kids">Kids</option>
+                            <option value="Others">Others</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="mb-3">
                     <label for="image" class="form-label">Image:</label>
                     <input type="file" class="form-control" name="image" id="image">
@@ -62,31 +103,33 @@
                     <button type="submit" class="btn btn-primary">Save Product</button>
                 </div>
                 <?php
-                require_once 'classes/ProductClass.php';
-                if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                    $name = isset($_POST["name"]) ? $_POST["name"] : '';
-                    $price = isset($_POST["price"]) ? $_POST["price"] : '';
-                    $description = isset($_POST["description"]) ? $_POST["description"] : '';
-                    if (empty($name) || empty($price) || empty($description)) {
-                        echo "<div class='alert alert-danger'>All fields are required.</div>";
-                    } else {
-                        try {
-                            $image_path = '';
-                            if (!empty($_FILES['image']['name'])) {
-                                $image_path = Product::uploadImage($_FILES['image']);
-                            }
-                            $product = new Product(null, $name, $description, $price, $image_path);
-                            if ($product->addProduct()) {
-                                echo "<div class='alert alert-success'>Product added successfully.</div>";
-                            } else {
-                                echo "<div class='alert alert-danger'>Failed to add product.</div>";
-                            }
-                        } catch (Exception $e) {
-                            echo "<div class='alert alert-danger'>Error: " . $e->getMessage() . "</div>";
+            require_once 'classes/ProductClass.php';
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $name = isset($_POST["name"]) ? $_POST["name"] : '';
+                $price = isset($_POST["price"]) ? $_POST["price"] : '';
+                $description = isset($_POST["description"]) ? $_POST["description"] : '';
+                $sizes = isset($_POST["sizes"]) ? implode(',', $_POST["sizes"]) : '';
+                $category = isset($_POST["category"]) ? $_POST["category"] : '';
+                if (empty($name) || empty($price) || empty($description) || empty($sizes) || empty($category)) {
+                    echo "<div class='alert alert-danger'>All fields are required.</div>";
+                } else {
+                    try {
+                        $image_path = '';
+                        if (!empty($_FILES['image']['name'])) {
+                            $image_path = Product::uploadImage($_FILES['image']);
                         }
+                        $product = new Product(null, $name, $description, $price, $image_path, $sizes, $category);
+                        if ($product->addProduct()) {
+                            echo "<div class='alert alert-success'>Product added successfully.</div>";
+                        } else {
+                            echo "<div class='alert alert-danger'>Failed to add product.</div>";
+                        }
+                    } catch (Exception $e) {
+                        echo "<div class='alert alert-danger'>Error: " . $e->getMessage() . "</div>";
                     }
                 }
-                ?>
+            }
+            ?>
             </form>
         </div>
     </div>

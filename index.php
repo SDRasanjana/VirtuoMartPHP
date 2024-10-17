@@ -21,7 +21,7 @@ session_start();
     <a href="#"><img src="img/logo.jpg" class="logo" alt="logo"></a>
     <div>
         <ul id="navbar">
-            <li><a class="active" href="index.php">Home</a></li>
+		    <li class="nav-item"><a class="nav-link active" href="index.php">Home</a></li>
             <li><a href="shop.php">Shop</a></li>
             <li><a href="blog.php">Blog</a></li>
             <li><a href="about.php">About</a></li>
@@ -80,7 +80,7 @@ session_start();
 
 	                <!--serchbox-->
     <div class="container">
-	  <div class="search">
+	  <div class="search ">
         <input type = "text" name="" id="find" placeholder="search products..." onkeyup="search()">
 		<button class="btn">Search</button>
       </div>
@@ -439,18 +439,20 @@ session_start();
 		<a href="#">Help</a>
 	</div>
 	
-	<div class="col  install">
+	<div class="col  install container">
 	   <h4>Install App</h4>
 	   <p>From App Store or Google Play</p>
 	   <div class="row">
+	   <div class="col">
 	    <img src="img/pay/app.jpg" alt="">
 		<img src="img/pay/play.jpg" alt="">
+	   </div>
 	   </div>
 	   <p>Secured Payment Gateways</p>
 	   <img src="img/pay/pay.png" alt="">
 	</div>
 	<div class="copyright">
-	<p>&copy;2024 Virtuo Mart</p>
+	<p>&copy;2024 VirtuoMart</p>
 	</div>
   </footer>
 

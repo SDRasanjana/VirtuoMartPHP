@@ -11,6 +11,8 @@ session_start();
 	 <title>E- CommerceWebsite</title>
 	 <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css"/>
 	 <link rel="stylesheet" type="text/css" href="style.css">
+	 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
   </head>
   
   <body>
@@ -34,7 +36,7 @@ session_start();
 	</div>
   </section>
   
-    <section id="page-header" class="blog-header">
+    <section id="page-header" class="blog-header container">
     
 	<h2>#readmore</h2>
 	
@@ -47,7 +49,7 @@ session_start();
 	 <div class="blog-img">
 	    <img src="img/blog/b1.jpg" alt="">
 	 </div>
-	 <div class="blog-details">
+	 <div class="blog-details container-md">
 	    <h4>The Cotton-Jersey Zip-Up Hoodie</h4>
 		<p>Kickstarter man braid godard coloring book. Reclette waistcoat selfies yr wolf
 		chartreuse hexagon irony, godard..</p>
@@ -56,7 +58,7 @@ session_start();
 	 <h1>13/01</h1>
 	</div>
 	<div class="blog-box">
-	 <div class="blog-img">
+	 <div class="blog-img container">
 	    <img src="img/blog/b2.jpg" alt="">
 	 </div>
 	 <div class="blog-details">
@@ -158,18 +160,20 @@ session_start();
 		<a href="#">Help</a>
 	</div>
 	
-	<div class="col  install">
+	<div class="col  install container">
 	   <h4>Install App</h4>
 	   <p>From App Store or Google Play</p>
 	   <div class="row">
+	   <div class="col">
 	    <img src="img/pay/app.jpg" alt="">
 		<img src="img/pay/play.jpg" alt="">
+	   </div>
 	   </div>
 	   <p>Secured Payment Gateways</p>
 	   <img src="img/pay/pay.png" alt="">
 	</div>
 	<div class="copyright">
-	<p>&copy;2023 SDR Solutions</p>
+	<p>&copy;2024 VirtuoMart</p>
 	</div>
   </footer>
   <script src="script.js"></script>

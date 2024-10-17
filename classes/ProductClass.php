@@ -6,13 +6,17 @@ class Product {
     private $description;
     private $price;
     private $imageUrl;
+    private $sizes;
+    private $category;
 
-    public function __construct($id, $name, $description, $price, $imageUrl) {
+    public function __construct($id, $name, $description, $price, $imageUrl, $sizes, $category) {
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;
         $this->price = floatval($price);
         $this->imageUrl = $imageUrl;
+        $this->sizes = $sizes;
+        $this->category = $category;
     }
 
 
@@ -31,18 +35,26 @@ class Product {
     public function getImageUrl() {
          return $this->imageUrl;
          }
+    public function getSizes() {
+        return $this->sizes;
+        }
+    public function getCategory() {
+        return $this->category;
+        }
 
     public function addProduct() {
         
         try {
             $dbConnector = new DbConnector();
             $conn = $dbConnector->getConnection();
-            $stmt = $conn->prepare("INSERT INTO products (name, description, price,image_url) VALUES (:name, :description, :price, :image_url)");
+            $stmt = $conn->prepare("INSERT INTO products (name, description, price,image_url, sizes, category) VALUES (:name, :description, :price, :image_url, :sizes, :category)");
             
             $stmt->bindParam(':name', $this->name);
             $stmt->bindParam(':description', $this->description);
             $stmt->bindParam(':price', $this->price, PDO::PARAM_STR);
             $stmt->bindParam(':image_url', $this->imageUrl);
+            $stmt->bindParam(':sizes', $this->sizes);
+            $stmt->bindParam(':category', $this->category);
             
             return $stmt->execute();
         } catch (PDOException $e) {

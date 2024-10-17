@@ -88,7 +88,7 @@ session_start();
 		</div>
 	</section>
 
-	<section id="form-details">
+	<section id="form-details" class="container">
 		<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="POST">
 			<span>LEAVE A MESSAGE</span>
 			<h2>We love to hear from you</h2>
@@ -139,20 +139,7 @@ session_start();
 			</div>
 		</div>
 	</section>
-	<section id="feedback">
-		<!--<div class="feedback-list">
-			<h2>Recent Feedbacks</h2>
-			<div id="feedbackContainer">
-				// foreach ($feedbacks as $feedback): ?>
-					<div class="feedback-item">
-						<h3><?= htmlspecialchars($feedback['subject']) ?></h3>
-						<p><strong><?= htmlspecialchars($feedback['name']) ?></strong> says:</p>
-						<p><?= htmlspecialchars($feedback['message']) ?></p>
-					</div>
-				<?php //endforeach; ?>
-			</div>
-		</div>
-		</div>-->
+	<section id="feedback" class="container">
 		<div class="section-header">
             <h2>Feedback Details</h2>
         </div>

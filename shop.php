@@ -9,51 +9,53 @@ $products = $cartManager->getAllProducts();
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
-     <meta charset="UTF-8">
-	 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	 <title>E- CommerceWebsite</title>
-	 <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css"/>
-	 <link rel="stylesheet" type="text/css" href="style.css">
-	 <link rel="stylesheet" type="text/css" href="search.css">
-  </head>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>E- CommerceWebsite</title>
+  <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" type="text/css" href="search.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   
-  <body>
-  <section id="header">
-    <a href="#"><img src="img/logo.jpg" class="logo" alt="logo"> 
-	<div>
-	 <ul id="navbar">
-	    <li><a href="index.php">Home</a></li>
-		<li><a class="active" href="shop.php">Shop</a></li>
-		<li><a href="blog.php">Blog</a></li>
-		<li><a href="about.php">About</a></li>
-		<li><a href="contact.php">Contact</a></li>
-		<li id="lg-bag"><a href="cart.php"><i class="fa fa-shopping-bag"></i></a></li>
-		<a href="#" id="close"><i class="fa fa-times"></i></a>
-		
-	 </ul>
-	</div>
-	<div id="mobile">
-	   <a href="cart.html"><i class="fa fa-shopping-bag"></i></a>
-	   <i id="bar" class="fa fa-outdent"></i>
-	</div>
-  </section>
-  
-    <section id="page-header">
-    
-	<h2>#stayhome</h2>
-	
-	<p>Save more with coupns & up to 70% off!</p>
-	</section>
+</head>
 
-	           <!--serchbox-->
-	<div class="container">
-	<div class="search">
+<body>
+  <section id="header">
+    <a href="#"><img src="img/logo.jpg" class="logo" alt="logo">
+      <div>
+        <ul id="navbar">
+          <li><a href="index.php">Home</a></li>
+          <li class="nav-item"><a class="nav-link active" href="shop.php">Shop</a></li>
+          <li><a href="blog.php">Blog</a></li>
+          <li><a href="about.php">About</a></li>
+          <li><a href="contact.php">Contact</a></li>
+          <li id="lg-bag"><a href="cart.php"><i class="fa fa-shopping-bag"></i></a></li>
+          <a href="#" id="close"><i class="fa fa-times"></i></a>
+
+        </ul>
+      </div>
+      <div id="mobile">
+        <a href="cart.html"><i class="fa fa-shopping-bag"></i></a>
+        <i id="bar" class="fa fa-outdent"></i>
+      </div>
+  </section>
+
+  <section id="page-header">
+
+    <h2>#stayhome</h2>
+
+    <p>Save more with coupns & up to 70% off!</p>
+  </section>
+
+  <!--serchbox-->
+  <div class="container">
+	  <div class="search ">
         <input type = "text" name="" id="find" placeholder="search products..." onkeyup="search()">
 		<button class="btn">Search</button>
-    </div>
+      </div>
 
-	<div id="buttons">
+	  <div id="buttons">
         <button class="button-value" onclick="filterProduct('all')">All</button>
         <button class="button-value" onclick="filterProduct('Gents')">
           Gents
@@ -71,48 +73,47 @@ $products = $cartManager->getAllProducts();
 
     </div>
 
-	
-  
-	<section id="product1" class="section-p1">
-        <div class="pro-container">
-            <?php foreach ($products as $product): ?>
-                <div class="pro" onclick="window.location.href='product.php?id=<?php echo $product->getId(); ?>';">
-                    <img src="<?php echo $product->getImageUrl(); ?>" alt="<?php echo $product->getName(); ?>">
-                    <div class="des">
-                        <span>adidas</span>
-                        <h5><?php echo $product->getName(); ?></h5>
-                        <div class="stars">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                        </div>
-                        <h4>$<?php echo $product->getPrice(); ?></h4>
-                    </div>
-                    <a href="#"><i class="fa fa-shopping-cart cart"></i></a>
-                </div>
-            <?php endforeach; ?>
+
+  <section id="product1" class="section-p1">
+    <div class="pro-container">
+      <?php foreach ($products as $product): ?>
+        <div class="pro" onclick="window.location.href='product.php?id=<?php echo $product->getId(); ?>';">
+          <img src="<?php echo $product->getImageUrl(); ?>" alt="<?php echo $product->getName(); ?>">
+          <div class="des">
+            <span>adidas</span>
+            <h5><?php echo $product->getName(); ?></h5>
+            <div class="stars">
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+            </div>
+            <h4>$<?php echo $product->getPrice(); ?></h4>
+          </div>
+          <a href="#"><i class="fa fa-shopping-cart cart"></i></a>
         </div>
-    </section>
-  
+      <?php endforeach; ?>
+    </div>
+  </section>
+
   <section id="pagination" class="section-p1">
     <a href="customizeorder.php">Customize Order</a>
     <a href="#">1</a>
-	<a href="#">2</a>
-	<a href="#"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+    <a href="#">2</a>
+    <a href="#"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
   </section>
-  
+
   <section id="newsletter" class="section-p1  section-m1">
     <div class="newstext">
-	    <h4>Sign Up For Newsletters</h4>
-		<p>Get E-mail updates about our latest shop and <span>special offers.</span></p>
-	</div>
-	<div class="form">
-	   <input type="text" placeholder="Your email address">
-	   <button class="normal">Sign Up</button>
-	</div>
+      <h4>Sign Up For Newsletters</h4>
+      <p>Get E-mail updates about our latest shop and <span>special offers.</span></p>
+    </div>
+    <div class="form">
+      <input type="text" placeholder="Your email address">
+      <button class="normal">Sign Up</button>
+    </div>
   </section>
-  
+ 
   <footer class="section-p1">
     <div class="col">
 	    <img src="img/logo.jpg" class="logo1" alt="logo">
@@ -146,76 +147,78 @@ $products = $cartManager->getAllProducts();
 		<a href="#">Sign In</a>
 		<a href="#">View Cart</a>
 		<a href="#">My Whishlist</a>
-		<a href="rating.php">Reviews</a>
+		<a href="#">Track My Order</a>
 		<a href="#">Help</a>
 	</div>
 	
-	<div class="col  install">
+	<div class="col  install container">
 	   <h4>Install App</h4>
 	   <p>From App Store or Google Play</p>
 	   <div class="row">
+	   <div class="col">
 	    <img src="img/pay/app.jpg" alt="">
 		<img src="img/pay/play.jpg" alt="">
+	   </div>
 	   </div>
 	   <p>Secured Payment Gateways</p>
 	   <img src="img/pay/pay.png" alt="">
 	</div>
 	<div class="copyright">
-	<p>&copy;2023 SDR Solutions</p>
+	<p>&copy;2024 VirtuoMart</p>
 	</div>
   </footer>
 
-                         <!--serching item-->
-<script type="text/javascript">
-  function search() {
+  <!--serching item-->
+  <script type="text/javascript">
+    function search() {
       let filter = document.getElementById('find').value.toUpperCase();
       let item = document.querySelectorAll('.pro');
       let l = document.getElementsByTagName('h5');
-      for(var i = 0;i<=l.length;i++){
-         let a=item[i].getElementsByTagName('h5')[0];
-         let value=a.innerHTML || a.innerText || a.textContent;
-         if(value.toUpperCase().indexOf(filter) > -1) {
-               item[i].style.display="";
-         }
-         else
-         {
-               item[i].style.display="none";
-         }
+      for (var i = 0; i <= l.length; i++) {
+        let a = item[i].getElementsByTagName('h5')[0];
+        let value = a.innerHTML || a.innerText || a.textContent;
+        if (value.toUpperCase().indexOf(filter) > -1) {
+          item[i].style.display = "";
+        } else {
+          item[i].style.display = "none";
+        }
       }
-}
-</script>
-
-       <!--Flter option -->
-	<script>
-    function filterProduct(category) {
-        let products = document.querySelectorAll('.pro');
-        products.forEach(product => {
-            if (category === 'all' || product.dataset.category === category) {
-                product.style.display = 'block';
-            } else {
-                product.style.display = 'none';
-            }
-        });
-
-
-        let buttons = document.querySelectorAll('.button-value');
-        buttons.forEach(button => {
-            if (button.textContent.trim().toLowerCase() === category) {
-                button.classList.add('active');
-            } else {
-                button.classList.remove('active');
-            }
-        });
     }
-    </script>
+  </script>
+
+  <!--Flter option -->
+  <script>
+    function filterProduct(category) {
+      let products = document.querySelectorAll('.pro');
+      products.forEach(product => {
+        if (category === 'all' || product.dataset.category === category) {
+          product.style.display = 'block';
+        } else {
+          product.style.display = 'none';
+        }
+      });
+
+
+      let buttons = document.querySelectorAll('.button-value');
+      buttons.forEach(button => {
+        if (button.textContent.trim().toLowerCase() === category) {
+          button.classList.add('active');
+        } else {
+          button.classList.remove('active');
+        }
+      });
+    }
+  </script>
 
   <script src="script.js"></script>
 
   <script>
-  window.onload = function() {
-	filterProduct('all');} 
+    window.onload = function() {
+      filterProduct('all');
+    }
   </script>
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
+</body>
 
-  </body>
 </html>

@@ -52,7 +52,7 @@ class CartManager {
         $product = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($product) {
-            return new Product($product['id'], $product['name'], $product['description'], $product['price'], $product['image_url']);
+            return new Product($product['id'], $product['name'], $product['description'], $product['price'], $product['image_url'], $product['sizes'], $product['category']);
         }
         return null;
     }
@@ -61,7 +61,7 @@ class CartManager {
         $stmt = $this->db->query("SELECT * FROM products");
         $products = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $products[] = new Product($row['id'], $row['name'], $row['description'], $row['price'], $row['image_url']);
+            $products[] = new Product($row['id'], $row['name'], $row['description'], $row['price'], $row['image_url'], $row['sizes'], $row['category']);
         }
         return $products;
     }

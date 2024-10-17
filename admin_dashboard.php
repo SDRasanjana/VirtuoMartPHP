@@ -50,11 +50,16 @@ if (isset($_POST['update_product'])) {
     $id = $_POST['product_id'];
     $name = $_POST['product_name'];
     $price = $_POST['product_price'];
-    $usql = "UPDATE `products` SET `name` = :name, `price` = :price WHERE `id` = :id";
+    $description = $_POST['product_description'];
+    $sizes = isset($_POST['sizes']) ? implode(',', $_POST['sizes']) : '';
+
+    $usql = "UPDATE `products` SET `name` = :name, `price` = :price , `description` = :description, `sizes` = :sizes WHERE `id` = :id";
     $stmt = $con->prepare($usql);
     $stmt->bindParam(':id', $id);
     $stmt->bindParam(':name', $name);
     $stmt->bindParam(':price', $price);
+    $stmt->bindParam(':description', $description);
+    $stmt->bindParam(':sizes', $sizes);
     $stmt->execute();
     header("Location: admin_dashboard.php?update_success=1");
     exit();
@@ -189,6 +194,7 @@ if (isset($_POST['update_product'])) {
                            <td><a class='btn btn-danger' href='admin_dashboard.php?delete_customer_id=" . $row["id"] . "' onclick='return confirm(\"Are you sure you want to delete this customer?\");'>Delete</a></td>
                            </tr>";
                     }
+
                     ?>
                 </tbody>
             </table>
@@ -246,13 +252,44 @@ if (isset($_POST['update_product'])) {
                                                <input type='number' class='form-control' id='product_price' name='product_price' value='" . htmlspecialchars($row["price"]) . "' step='0.01' required>
                                            </div>
                                        </div>
-                                       <div class='modal-footer'>
+                                       <div class='mb-3'>
+                                            <label class='form-label'>Sizes:</label>
+                                            <div class='form-check'>
+                                                <input class='form-check-input' type='checkbox' name='sizes[]' value='XS' id='size_xs_" . $row["id"] . "' " . (strpos($row["sizes"], 'XS') !== false ? 'checked' : '') . ">
+                                                <label class='form-check-label' for='size_xs_" . $row["id"] . "'>XS</label>
+                                            </div>
+                                            <div class='form-check'>
+                                                <input class='form-check-input' type='checkbox' name='sizes[]' value='S' id='size_s_" . $row["id"] . "' " . (strpos($row["sizes"], 'S') !== false ? 'checked' : '') . ">
+                                                <label class='form-check-label' for='size_s_" . $row["id"] . "'>S</label>
+                                            </div>
+                                            <div class='form-check'>
+                                                <input class='form-check-input' type='checkbox' name='sizes[]' value='M' id='size_m_" . $row["id"] . "' " . (strpos($row["sizes"], 'M') !== false ? 'checked' : '') . ">
+                                                <label class='form-check-label' for='size_m_" . $row["id"] . "'>M</label>
+                                            </div>
+                                            <div class='form-check'>
+                                                <input class='form-check-input' type='checkbox' name='sizes[]' value='L' id='size_l_" . $row["id"] . "' " . (strpos($row["sizes"], 'L') !== false ? 'checked' : '') . ">
+                                                <label class='form-check-label' for='size_l_" . $row["id"] . "'>L</label>
+                                            </div>
+                                            <div class='form-check'>
+                                                <input class='form-check-input' type='checkbox' name='sizes[]' value='XL' id='size_xl_" . $row["id"] . "' " . (strpos($row["sizes"], 'XL') !== false ? 'checked' : '') . ">
+                                                <label class='form-check-label' for='size_xl_" . $row["id"] . "'>XL</label>
+                                            </div>
+                                            <div class='form-check'>
+                                                <input class='form-check-input' type='checkbox' name='sizes[]' value='XXL' id='size_xxl_" . $row["id"] . "' " . (strpos($row["sizes"], 'XXL') !== false ? 'checked' : '') . ">
+                                                <label class='form-check-label' for='size_xxl_" . $row["id"] . "'>XXL</label>
+                                            </div>
+                                            </div>
+                                        <div class='mb-3'>
+                                            <label for='product_description' class='form-label'>Description:</label>
+                                            <textarea class='form-control' id='product_description' name='product_description' rows='3'>" . htmlspecialchars($row["description"]) . "</textarea>
+                                        </div>
+                                        <div class='modal-footer'>
                                            <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Close</button>
                                            <button type='submit' class='btn btn-primary' name='update_product'>Save changes</button>
-                                       </div>
-                                   </form>
-                               </div>
-                           </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                        </div>";
                     }
                     ?>
