@@ -89,7 +89,8 @@ if (!$product) {
 					<option>XXL</option>
                 </select>
                 <input type="number" name="quantity" value="1" min="1">
-                <button type="submit" name="add_to_cart" class="normal">Add To Cart</button>
+                <button type="submit" name="add_to_cart" class="normal">Add To Cart</button><br><br>
+				<button type="submit" name="review" class="normal"><a href="rating.php" style="text-decoration: none; color:white;">Write a Review</a></button>
             </form>
             <h4>Product Details</h4>
             <span class="des"><?php echo $product->getDescription(); ?></span>
