@@ -7,6 +7,7 @@ session_start();
 
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>E- CommerceWebsite</title>
 	<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css" />
@@ -236,7 +237,7 @@ session_start();
 			<img src="img/pay/pay.png" alt="">
 		</div>
 		<div class="copyright">
-			<p>&copy;2023 SDR Solutions</p>
+			<p>&copy;2024 VirtuoMart</p>
 		</div>
 	</footer>
 	<script src="script.js"></script>
