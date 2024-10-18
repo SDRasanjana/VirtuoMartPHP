@@ -32,7 +32,7 @@ session_start();
 	 </ul>
 	</div>
 	<div id="mobile">
-	   <a href="cart.html"><i class="fa fa-shopping-bag"></i></a>
+	   <a href="cart.php"><i class="fa fa-shopping-bag"></i></a>
 	   <i id="bar" class="fa fa-outdent"></i>
 	</div>
   </section>

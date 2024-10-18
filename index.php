@@ -38,16 +38,22 @@ session_start();
 				<li><a href="blog.php">Blog</a></li>
 				<li><a href="about.php">About</a></li>
 				<li><a href="contact.php">Contact</a></li>
+				<div id="user-auth">
+					<?php if (isset($_SESSION['username'])): ?>
+						<span>Welcome, <?php echo $_SESSION['username']; ?></span>
+						<a href="logout.php">Logout</a>
+					<?php else: ?>
+						<li><a href="login.php" id="login"><i class="fa fa-address-book" style="color: black;" aria-hidden="true"></i></a></li>
+						</a>
+					<?php endif; ?>
+				</div>
 				<li id="lg-bag"><a href="cart.php"><i class="fa fa-shopping-bag"></i></a></li>
+				<a href="#" id="close"><i class="fa fa-times"></i></a>
 			</ul>
 		</div>
-		<div id="user-auth">
-			<?php if (isset($_SESSION['username'])): ?>
-				<span>Welcome, <?php echo $_SESSION['username']; ?></span>
-				<a href="logout.php">Logout</a>
-			<?php else: ?>
-				<a href="login.php">Login</a>
-			<?php endif; ?>
+		<div id="mobile">
+			<a href="cart.php"><i class="fa fa-shopping-bag"></i></a>
+			<i id="bar" class="fa fa-outdent"></i>
 		</div>
 	</section>
 
@@ -91,7 +97,7 @@ session_start();
 		<p>Summer Collection New Modern Design</p>
 
 		<!--serchbox-->
-		<div class="container">
+		<div class="container1">
 			<div class="search ">
 				<input type="text" name="" id="find" placeholder="search products..." onkeyup="search()">
 				<button class="btn">Search</button>
@@ -536,6 +542,7 @@ session_start();
 		}
 	</script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+	<script src="script.js"></script>
 </body>
 
 </html>

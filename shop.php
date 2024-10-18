@@ -50,7 +50,7 @@ $products = $cartManager->getAllProducts();
   </section>
 
   <!--serchbox-->
-  <div class="container">
+  <div class="container1">
 	  <div class="search ">
         <input type = "text" name="" id="find" placeholder="search products..." onkeyup="search()">
 		<button class="btn">Search</button>

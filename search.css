@@ -49,3 +49,23 @@
     background-color: #088178;
     color: #ffffff;
   }
+
+  @media screen and (max-width: 799px) {
+    .container1 .search input::placeholder {
+        color:ash;
+        font-weight: 200;
+   }
+   .container1{
+    width: 300px;
+    height: auto;
+    margin: auto;
+	padding: 20px 0px;
+}
+.button-value {
+    border: 2px solid #088178;
+    padding: 10px 40px 10px 40px;
+    border-radius: 2em;
+    margin-bottom: 3px;
+    
+  }
+  }
