@@ -14,7 +14,7 @@ class OrderManager {
         $stmt->execute([$order->getCustomerId(), $order->getOrderDate(), $order->getTotalAmount(), $order->getStatus()]);
         return $this->db->lastInsertId();
     }
-
+    //function to get customer details
     public function getCustomerDetails($customerId) {
         $stmt = $this->db->prepare("SELECT * FROM registered_customer WHERE id = ?");
         $stmt->execute([$customerId]);
@@ -35,5 +35,11 @@ class OrderManager {
             $paymentDetails['expiry_year'],
             $paymentDetails['cvv']
         ]);
+    }
+    //insert payment details to the cash on delivery table
+    public function saveCODDetails($codDetails) {
+        $stmt = $this->db->prepare("INSERT INTO cash_on_delivery (order_id, customer_name, address, phone_number, total_amount) 
+                                    VALUES (:order_id, :customer_name, :address, :phone_number, :total_amount)");
+        return $stmt->execute($codDetails);
     }
 }

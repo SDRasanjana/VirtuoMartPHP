@@ -12,12 +12,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (isset($_POST['remove_item'])) {
         $productId = $_POST['product_id'];
         $cartManager->removeFromCart($productId);
+    } elseif (isset($_POST['payment_method'])) {
+        $paymentMethod = $_POST['payment_method'];
+        if ($paymentMethod === 'online') {
+            header('Location: payment.php');
+            exit;
+        } elseif ($paymentMethod === 'cod') {
+            header('Location: checkout.php?method=cod');
+            exit;
+        }
     }
 }
-
 $cartItems = $cartManager->getCartItems();
 $cartTotal = $cartManager->getCartTotal();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -51,15 +60,12 @@ $cartTotal = $cartManager->getCartTotal();
 	</div>
   </section>
   
-    <section id="page-header" class="about-header">
-    
-	<h2>#let's_create_order</h2>
-	
-	<p>LEAVE A MESSAGE.We have to hear from you!</p>
-	
-  </section>
-  
-  <section id="cart" class="section-p1">
+  <section id="page-header" class="about-header">
+        <h2>#let's_create_order</h2>
+        <p>LEAVE A MESSAGE. We have to hear from you!</p>
+    </section>
+
+    <section id="cart" class="section-p1">
         <table width="100%">
             <thead>
                 <tr>
@@ -97,18 +103,18 @@ $cartTotal = $cartManager->getCartTotal();
         </table>
     </section>
 
-  <section id="cart-add" class="section-p1">
-    <div id="coupon">
-	  <h3>Apply Coupon</h3>
-	  <div>
-	    <input type="text" placeholder="Enter Your Coupon">
-		<button class="normal">Apply</button>
-	  </div>
-	</div>
-	
-	<div id="subtotal">
+    <section id="cart-add" class="section-p1">
+        <div id="coupon">
+            <h3>Apply Coupon</h3>
+            <div>
+                <input type="text" placeholder="Enter Your Coupon">
+                <button class="normal">Apply</button>
+            </div>
+        </div>
+
+        <div id="subtotal">
             <h3>Cart Total</h3>
-            <table> 
+            <table>
                 <tr>
                     <td>Cart Subtotal</td>
                     <td>$<?php echo $cartTotal; ?></td>
@@ -122,7 +128,16 @@ $cartTotal = $cartManager->getCartTotal();
                     <td><strong>$<?php echo $cartTotal; ?></strong></td>
                 </tr>
             </table>
-            <a href="payment.php"><button class="normal">Proceed to payment</button></a>
+            <form method="POST" action="">
+                <div class="payment-method">
+                    <h3>Select Payment Method:</h3>
+                    <input type="radio" id="online_payment" name="payment_method" value="online" checked>
+                    <label for="online_payment">Online Payment</label>
+                    <input type="radio" id="cod" name="payment_method" value="cod">
+                    <label for="cod">Cash on Delivery</label>
+                </div>
+                <button type="submit" class="normal">Proceed to Checkout</button>
+            </form>
         </div>
     </section>
   <footer class="section-p1">

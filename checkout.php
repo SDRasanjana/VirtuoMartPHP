@@ -16,39 +16,70 @@ $customerId = $_SESSION['user_id'];
 $customerDetails = $orderManager->getCustomerDetails($customerId);
 $cartItems = $cartManager->getCartItems();
 $cartTotal = $cartManager->getCartTotal();
+$paymentMethod = isset($_GET['method']) ? $_GET['method'] : 'online';
 
-// Check whether the payment details are set
-if (!isset($_SESSION['payment_details']) || !isset($_SESSION['shipping_address'])) {
+if ($paymentMethod === 'online' && (!isset($_SESSION['payment_details']) || !isset($_SESSION['shipping_address']))) {
     header('Location: payment.php');
     exit;
 }
 
-$paymentDetails = $_SESSION['payment_details'];
-$shippingAddress = $_SESSION['shipping_address'];
+if ($paymentMethod === 'online') {
+    $paymentDetails = $_SESSION['payment_details'];
+    $shippingAddress = $_SESSION['shipping_address'];
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Creating a new order
-    $order = new Order($customerId, $cartTotal);
-    $orderId = $orderManager->createOrder($order);
+    if ($paymentMethod === 'cod') {
+        // Handle Cash on Delivery order
+        $order = new Order($customerId, $cartTotal);
+        $orderId = $orderManager->createOrder($order);
 
-    if ($orderId) {
-    
-        $orderManager->savePaymentDetails($orderId, $paymentDetails);
+        if ($orderId) {
+            // Save Cash on delivery order
+            $customerName = $_POST['customer_name'];
+            $address = $_POST['address'];
+            $phoneNumber = $_POST['phone_number'];
+            
+            $codDetails = [
+                'order_id' => $orderId,
+                'customer_name' => $customerName,
+                'address' => $address,
+                'phone_number' => $phoneNumber,
+                'total_amount' => $cartTotal
+            ];
+            
+            $orderManager->saveCODDetails($codDetails);
 
-        // Clear cart
-        $cartManager->clearCart();
+            // Clear cart
+            $cartManager->clearCart();
 
-        // Clear payment details from session
-        unset($_SESSION['payment_details']);
-        unset($_SESSION['shipping_address']);
+            $successMessage = "Order placed successfully! Your order ID is: " . $orderId;
+        } else {
+            $errorMessage = "There was an error processing your order. Please try again.";
+        }
+    } elseif ($paymentMethod === 'online'){
+        // Creating a new order
+        $order = new Order($customerId, $cartTotal);
+        $orderId = $orderManager->createOrder($order);
 
-    
-        $successMessage = "Order placed successfully! Your order ID is: " . $orderId;
-    } else {
-        $errorMessage = "There was an error processing your order. Please try again.";
+        if ($orderId) {
+            $orderManager->savePaymentDetails($orderId, $paymentDetails);
+
+            // Clear cart
+            $cartManager->clearCart();
+
+            // Clear payment details from session
+            unset($_SESSION['payment_details']);
+            unset($_SESSION['shipping_address']);
+
+            $successMessage = "Order placed successfully! Your order ID is: " . $orderId;
+        } else {
+            $errorMessage = "There was an error processing your order. Please try again.";
+        }
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -197,42 +228,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </section>
 
 <section id="checkout" class="section-p1">
-    <h2>Checkout</h2>
-    <?php if (isset($successMessage)): ?>
-        <div class="success-message"><?php echo $successMessage; ?></div>
-    <?php elseif (isset($errorMessage)): ?>
-        <div class="error-message"><?php echo $errorMessage; ?></div>
-    <?php else: ?>
-        <div class="checkout-details">
-            <div class="customer-details">
-                <h3>Customer Details</h3>
-                <p><strong>Name:</strong> <?php echo $customerDetails['name']; ?></p>
-                <p><strong>Email:</strong> <?php echo $customerDetails['email']; ?></p>
-                <p><strong>Shipping Address:</strong> <?php echo $shippingAddress; ?></p>
-            </div>
-            <div class="payment-details">
+        <h2>Checkout</h2>
+        <?php if (isset($successMessage)): ?>
+            <div class="success-message"><?php echo $successMessage; ?></div>
+        <?php elseif (isset($errorMessage)): ?>
+            <div class="error-message"><?php echo $errorMessage; ?></div>
+        <?php else: ?>
+            <div class="checkout-details">
+                <div class="customer-details">
+                    <h3>Customer Details</h3>
+                    <p><strong>Name:</strong> <?php echo $customerDetails['name']; ?></p>
+                    <p><strong>Email:</strong> <?php echo $customerDetails['email']; ?></p>
+                    <p><strong>Shipping Address:</strong> <?php echo $customerDetails['address']; ?></p>
+                </div>
+                <?php if ($paymentMethod === 'online'): ?>
+                    <div class="payment-details">
                 <h3>Payment Details</h3>
                 <p><strong>Card Number:</strong> **** **** **** <?php echo substr($paymentDetails['card_number'], -4); ?></p>
                 <p><strong>Card Holder:</strong> <?php echo $paymentDetails['card_holder']; ?></p>
                 <p><strong>Expiry:</strong> <?php echo $paymentDetails['expiry_month'] . '/' . $paymentDetails['expiry_year']; ?></p>
             </div>
+            <?php endif; ?>
         </div>
-        <div class="order-summary">
-            <h3>Order Summary</h3>
-                <?php foreach ($cartItems as $item): ?>
-                    <div class="order-item">
-                        <span><?php echo $item['product']->getName(); ?></span>
-                        <span><?php echo $item['quantity']; ?> x $<?php echo $item['product']->getPrice(); ?></span>
+        <form method="POST" action="" class="mt-4">
+                <?php if ($paymentMethod === 'cod'): ?>
+                    <h3>Cash on Delivery Details</h3>
+                    <div class="form-group">
+                        <label for="customer_name">Full Name:</label>
+                        <input type="text" id="customer_name" name="customer_name" required>
                     </div>
-                <?php endforeach; ?>
-                <div class="order-total">
-                    <strong>Total: $<?php echo $cartTotal; ?></strong>
+                    <div class="form-group">
+                        <label for="address">Delivery Address:</label>
+                        <textarea id="address" name="address" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone_number">Phone Number:</label>
+                        <input type="tel" id="phone_number" name="phone_number" required>
+                    </div>
+                <?php endif; ?>
+        <div class="order-summary">
+                    <h3>Order Summary</h3>
+                    <?php foreach ($cartItems as $item): ?>
+                        <div class="order-item">
+                            <span><?php echo $item['product']->getName(); ?></span>
+                            <span><?php echo $item['quantity']; ?> x $<?php echo $item['product']->getPrice(); ?></span>
+                        </div>
+                    <?php endforeach; ?>
+                    <div class="order-total">
+                        <strong>Total: $<?php echo number_format($cartTotal, 2); ?></strong>
+                    </div>
                 </div>
-                <p><strong>Total:</strong> $<?php echo number_format($cartTotal, 2); ?></p>
-        </div>
-        <form method="POST" action="">
-            <button type="submit" class="btn btn-confirm">Confirm and Pay</button>
-        </form>
+                <button type="submit" class="btn btn-confirm">Confirm and Pay</button>
+            </form>
         <?php endif; ?>
     </section>
 

@@ -37,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $processing_count = $delivery_member->getOrderCountByState('processing');
 $shipped_count = $delivery_member->getOrderCountByState('shipped');
 $delivered_count = $delivery_member->getOrderCountByState('delivered');
+$allOrders = $delivery_member->getAllOrders();
 ?>
 
 <!DOCTYPE html>
@@ -51,7 +52,7 @@ $delivered_count = $delivery_member->getOrderCountByState('delivered');
     <link rel="stylesheet" href="admin_styles.css">
     <style>
         .dashboard-container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 30px auto;
             background-color: #ffffff;
             padding: 30px;
@@ -66,6 +67,7 @@ $delivered_count = $delivery_member->getOrderCountByState('delivered');
         }
         .stats-container {
             margin-top: 30px;
+            margin-bottom: 30px;
         }
         .stat-box {
             background-color: #f8f9fa;
@@ -82,6 +84,9 @@ $delivered_count = $delivery_member->getOrderCountByState('delivered');
             font-size: 1.5rem;
             font-weight: bold;
             margin-bottom: 0;
+        }
+        .table th, .table td {
+            vertical-align: middle;
         }
     </style>
 </head>
@@ -102,7 +107,6 @@ $delivered_count = $delivery_member->getOrderCountByState('delivered');
             <?php if (isset($error_message)): ?>
                 <div class="alert alert-danger"><?php echo $error_message; ?></div>
             <?php endif; ?>
-
             <form method="POST">
                 <div class="form-group">
                     <label for="orderID">Order ID</label>
