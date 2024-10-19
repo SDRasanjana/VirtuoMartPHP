@@ -17,6 +17,15 @@ if (!isset($_SESSION['is_owner']) || $_SESSION['is_owner'] !== true) {
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="admin_styles.css">
+
+    <style>
+        #chat-box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            height: 200px;
+            overflow-y: scroll;
+        }
+    </style>
 </head>
 
 <body>
@@ -31,9 +40,9 @@ if (!isset($_SESSION['is_owner']) || $_SESSION['is_owner'] !== true) {
     <div class="container">
         <div class="row">
             <div class="col-md-8">
-            <div class="section-header">
-            <h2>Product Details</h2>
-        </div>
+                <div class="section-header">
+                    <h2>Product Details</h2>
+                </div>
                 <table id="products-table">
                     <thead>
                         <tr>
@@ -66,10 +75,10 @@ if (!isset($_SESSION['is_owner']) || $_SESSION['is_owner'] !== true) {
                     </tbody>
                 </table>
                 <div class="section-header">
-            <h2>Customize Order Request</h2>
-        </div>
+                    <h2>Customize Order Request</h2>
+                </div>
                 <table id="customize_order">
-                <thead>
+                    <thead>
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
@@ -80,9 +89,9 @@ if (!isset($_SESSION['is_owner']) || $_SESSION['is_owner'] !== true) {
                             <th>Message</th>
                             <th>Product Name</th>
                         </tr>
-                    </thead> 
+                    </thead>
                     <tbody>
-                    <?php
+                        <?php
                         require_once './DbConnector.php';
                         $dbconnector = new DbConnector();
                         $con = $dbconnector->getConnection();
@@ -112,12 +121,58 @@ if (!isset($_SESSION['is_owner']) || $_SESSION['is_owner'] !== true) {
             </div>
             <div class="col-md-4">
                 <div class="chat-container">
-                    <h2>Chat Function</h2>
-                    <div id="chat-messages" style="height: 300px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px;">
-                        <!-- Chat function-->
+                    <h2>Chat with Customers</h2>
+                    <?php
+                    // Create a new instance of the Database class
+                    require_once 'classes/DbConnector.php';
+                    $db = new Database();
+
+                    // Connect to the database
+                    $conn = $db->getConnection();
+
+                    // If the owner sends a reply
+                    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['message'])) {
+                        $message = $_POST['message'];
+
+                        // Insert the owner's reply into the database
+                        $sql = "INSERT INTO chat_messages (sender, message) VALUES ('owner', '$message')";
+                        $conn->query($sql);
+                    }
+
+                    // If the owner clicks "Clear All Chat"
+                    if (isset($_POST['clear_chat'])) {
+                        // Delete all messages from the chat_messages table
+                        $sql = "DELETE FROM chat_messages";
+                        $conn->query($sql);
+
+                        echo "Chat cleared!";
+                    }
+
+                    // Fetch all messages from the database
+                    $sql = "SELECT * FROM chat_messages ORDER BY timestamp ASC";
+                    $result = $conn->query($sql);
+                    ?>
+                    <!-- Display chat messages -->
+                    <div id="chat-box">
+                        <?php
+                        while ($row = $result->fetch_assoc()) {
+                            echo "<p><strong>" . ucfirst($row['sender']) . ":</strong> " . htmlspecialchars($row['message']) . " <em>[" . $row['timestamp'] . "]</em></p>";
+                        }
+                        ?>
                     </div>
-                    <input type="text" id="chat-input" placeholder="Type your message..." style="width: 100%; margin-top: 10px;">
-                    <button id="send-message" class="btn btn-primary" style="margin-top: 10px;">Send</button>
+
+                    <!-- Reply form for the owner -->
+                    <form method="POST" action="">
+                        <label>Enter your reply:</label>
+                        <input type="text" name="message"  placeholder="Type your message" required>
+                        <button type="submit" style="color: white; background-color:#0066ff">Reply</button>
+                    </form>
+
+                    <!-- Clear all chat option for the owner only -->
+                    <form method="POST" action="">
+                        <button type="submit" name="clear_chat" style="background-color: #ff1a1a; color:white;">Clear All Chat</button>
+                    </form>
+
                 </div>
             </div>
         </div>

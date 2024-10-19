@@ -1,6 +1,9 @@
 
 <?php
 class Owner extends User {
+    public $owner_id;
+    public $username;
+    public $phone_no;
         //authenticate function to check whether the owner member already exists in the database
     public function authenticate($username, $password) {
         $conn = $this->db->getConnection();

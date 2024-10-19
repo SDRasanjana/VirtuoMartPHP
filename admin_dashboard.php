@@ -9,8 +9,87 @@ require_once './DbConnector.php';
 $dbconnector = new DbConnector();
 $con = $dbconnector->getConnection();
 
-// ... (keep existing PHP code for customer deletion, product update, etc.)
+//Buffer all output
+ob_start();
 
+//Function of safly redirect
+function safeRedirect($url)
+{
+    if (!headers_sent()) {
+        header("Location: $url");
+    } else {
+        echo "<script>window.location.href='$url';</script>";
+    }
+    exit();
+}
+
+if (isset($_GET['delete_customer_id'])) {
+    $id = $_GET['delete_customer_id'];
+
+    try {
+        $con->beginTransaction();
+        $dsql_orders = "DELETE FROM `orders` WHERE `customer_id` = :id";
+        $stmt_orders = $con->prepare($dsql_orders);
+        $stmt_orders->bindParam(':id', $id);
+        $stmt_orders->execute();
+
+        $dsql_customer = "DELETE FROM `registered_customer` WHERE `id` = :id";
+        $stmt_customer = $con->prepare($dsql_customer);
+        $stmt_customer->bindParam(':id', $id);
+        $stmt_customer->execute();
+
+        $con->commit();
+        header("Location: admin_dashboard.php?section=customers&delete_success=1");
+        exit();
+    } catch (PDOException $e) {
+        $con->rollBack();
+        $error_message = "Error deleting customer: " . $e->getMessage();
+    }
+}
+// to delete product
+if (isset($_GET['delete_product_id'])) {
+    $id = $_GET['delete_product_id'];
+    $dsql = "DELETE FROM `products` WHERE `id` = :id";
+    $stmt = $con->prepare($dsql);
+    $stmt->bindParam(':id', $id);
+    $stmt->execute();
+    header("Location: admin_dashboard.php?section=product&delete_product_success=1");
+    exit();
+}
+// product update
+if (isset($_POST['update_product'])) {
+    $id = $_POST['product_id'];
+    $name = $_POST['product_name'];
+    $price = $_POST['product_price'];
+    $description = $_POST['product_description'];
+    $sizes = isset($_POST['sizes']) ? implode(',', $_POST['sizes']) : '';
+    $usql = "UPDATE `products` SET `name` = :name, `price` = :price , `description` = :description, `sizes` = :sizes WHERE `id` = :id";
+    $stmt = $con->prepare($usql);
+    $stmt->bindParam(':id', $id);
+    $stmt->bindParam(':name', $name);
+    $stmt->bindParam(':price', $price);
+    $stmt->bindParam(':description', $description);
+    $stmt->bindParam(':sizes', $sizes);
+    $stmt->execute();
+    header("Location: admin_dashboard.php?section=products&update_success=1");
+    exit();
+}
+
+if (isset($_GET['deactivate_customer_id'])) {
+    $customer_id = $_GET['deactivate_customer_id'];
+    $stmt = $con->prepare("UPDATE registered_customer SET is_active = FALSE WHERE id = ?");
+    $stmt->execute([$customer_id]);
+    header("Location: admin_dashboard.php?section=customers&customer_update=deactivate");
+    exit();
+}
+
+if (isset($_GET['activate_customer_id'])) {
+    $customer_id = $_GET['activate_customer_id'];
+    $stmt = $con->prepare("UPDATE registered_customer SET is_active = TRUE WHERE id = ?");
+    $stmt->execute([$customer_id]);
+    header("Location: admin_dashboard.php?section=customers&customer_update=activated");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -28,23 +107,29 @@ $con = $dbconnector->getConnection();
         body {
             font-family: 'Inter', sans-serif;
         }
+
         .nav-link {
             cursor: pointer;
         }
+
         .nav-link.active {
             background-color: rgba(255, 255, 255, 0.2);
             border-radius: 0.25rem;
         }
+
         .section {
             display: none;
             padding: 20px;
         }
+
         .section.active {
             display: block;
         }
+
         .table-responsive {
             overflow-x: auto;
         }
+
         .stat-box {
             background-color: #f8f9fa;
             border-radius: 10px;
@@ -52,22 +137,27 @@ $con = $dbconnector->getConnection();
             margin-bottom: 20px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+
         .stat-box h2 {
             font-size: 1.2rem;
             margin-bottom: 10px;
         }
+
         .stat-box p {
             font-size: 2rem;
             font-weight: bold;
             margin: 0;
         }
+
         @media (max-width: 768px) {
             .stat-box {
                 margin-bottom: 15px;
             }
+
             .stat-box h2 {
                 font-size: 1rem;
             }
+
             .stat-box p {
                 font-size: 1.5rem;
             }
@@ -131,40 +221,44 @@ $con = $dbconnector->getConnection();
             echo "<div class='alert alert-success'>Product updated successfully.</div>";
         }
         ?>
-
         <div id="stats" class="section active">
             <h2 class="mb-4">Dashboard Overview</h2>
             <div class="row">
+                <?php
+                if (isset($_GET['customer_update'])) {
+                    $action = $_GET['customer_update'];
+                    echo "<div class='alert alert-success'>Customer successfully " . $action . ".</div>";
+                }
+                ?>
                 <div class="col-md-4 col-sm-6">
                     <div class="stat-box">
                         <h2>Total Customers</h2>
                         <p id="num-customers"><?php
-                            $stmt = $con->query("SELECT COUNT(*) FROM registered_customer");
-                            echo $stmt->fetchColumn();
-                        ?></p>
+                                                $stmt = $con->query("SELECT COUNT(*) FROM registered_customer WHERE is_active = TRUE");
+                                                echo $stmt->fetchColumn();
+                                                ?></p>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6">
                     <div class="stat-box">
                         <h2>Total Products</h2>
                         <p id="num-products"><?php
-                            $stmt = $con->query("SELECT COUNT(*) FROM products");
-                            echo $stmt->fetchColumn();
-                        ?></p>
+                                                $stmt = $con->query("SELECT COUNT(*) FROM products");
+                                                echo $stmt->fetchColumn();
+                                                ?></p>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6">
                     <div class="stat-box">
                         <h2>Total Orders</h2>
                         <p id="num-orders"><?php
-                            $stmt = $con->query("SELECT COUNT(*) FROM orders");
-                            echo $stmt->fetchColumn();
-                        ?></p>
+                                            $stmt = $con->query("SELECT COUNT(*) FROM orders");
+                                            echo $stmt->fetchColumn();
+                                            ?></p>
                     </div>
                 </div>
             </div>
         </div>
-
         <div id="customers" class="section">
             <h2 class="mb-4">Customers</h2>
             <div class="table-responsive">
@@ -174,6 +268,7 @@ $con = $dbconnector->getConnection();
                             <th>ID</th>
                             <th>Name</th>
                             <th>Email</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -187,12 +282,18 @@ $con = $dbconnector->getConnection();
                         }
 
                         while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                            $status = $row["is_active"] ? "Active" : "Inactive";
+                            $actionBtn = $row["is_active"]
+                                ? "<a class='btn btn-danger btn-sm' href='admin_dashboard.php?deactivate_customer_id=" . $row["id"] . "' onclick='return confirm(\"Are you sure you want to deactivate this customer?\");'>Deactivate</a>"
+                                : "<a class='btn btn-success btn-sm' href='admin_dashboard.php?activate_customer_id=" . $row["id"] . "' onclick='return confirm(\"Are you sure you want to activate this customer?\");'>Activate</a>";
+
                             echo "<tr>
-                               <td>" . htmlspecialchars($row["id"]) . "</td>
-                               <td>" . htmlspecialchars($row["name"]) . "</td>
-                               <td>" . htmlspecialchars($row["email"]) . "</td>
-                               <td><a class='btn btn-danger btn-sm' href='admin_dashboard.php?delete_customer_id=" . $row["id"] . "' onclick='return confirm(\"Are you sure you want to delete this customer?\");'>Delete</a></td>
-                               </tr>";
+                       <td>" . htmlspecialchars($row["id"]) . "</td>
+                       <td>" . htmlspecialchars($row["name"]) . "</td>
+                       <td>" . htmlspecialchars($row["email"]) . "</td>
+                       <td>" . $status . "</td>
+                       <td>" . $actionBtn . "</td>
+                       </tr>";
                         }
                         ?>
                     </tbody>
@@ -226,7 +327,28 @@ $con = $dbconnector->getConnection();
                     if (!$result) {
                         die("Invalid query: " . $con->errorInfo()[2]);
                     }
+                    if (isset($_POST['update_product'])) {
+                        $product_id = $_POST['product_id'];
+                        $product_name = $_POST['product_name'];
+                        $product_price = $_POST['product_price'];
+                        $sizes = implode(',', $_POST['sizes']);
+                        $product_description = $_POST['product_description'];
 
+                        $stmt = $con->prepare("UPDATE products SET name = ?, price = ?, sizes = ?, description = ? WHERE id = ?");
+                        $stmt->execute([$product_name, $product_price, $sizes, $product_description, $product_id]);
+
+                        header("Location: admin_dashboard.php?update_success=true");
+                        exit();
+                    }
+
+                    if (isset($_GET['delete_product_id'])) {
+                        $product_id = $_GET['delete_product_id'];
+                        $stmt = $con->prepare("DELETE FROM products WHERE id = ?");
+                        $stmt->execute([$product_id]);
+
+                        header("Location: admin_dashboard.php?delete_product_success=true");
+                        exit();
+                    }
                     while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
                         echo "<tr>
                            <td>" . htmlspecialchars($row["id"]) . "</td>
@@ -455,13 +577,28 @@ $con = $dbconnector->getConnection();
                 link.addEventListener('click', function() {
                     const sectionId = this.getAttribute('data-section');
                     showSection(sectionId);
+                    //update URL without refreshing the page
+                    history.pushState(null, '', `?section=${sectionId}`);
                 });
             });
 
             // Set initial active state
-            showSection('stats');
+            const urlParams = new URLSearchParams(window.location.search);
+            const section = urlParams.get('section') || 'stats';
+            showSection(section);
+
+            //Handle browser back/forward button
+            window.addEventListener('popstate', function() {
+                const section = new URLSearchParams(window.location.search);
+                const activeSection = section.get('section') || 'stats';
+                showSection(activeSection);
+            });
         });
     </script>
 </body>
 
 </html>
+<?php
+//Flush the output buffer
+ob_end_flush();
+?>

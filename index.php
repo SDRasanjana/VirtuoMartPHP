@@ -62,7 +62,8 @@ session_start();
 		<h2>Super value deals</h2>
 		<h1>On all products</h1>
 		<p>Save more with coupns & up to 70% off!</p>
-		<button>Shop Now</button>
+		<button><a href="shop.php" style="text-decoration: none;">Shop Now</a></button>
+		<button><a href="customer_chat.php" style="text-decoration: none;">Help & Support</a></button>
 	</section>
 
 	<section id="feature" class="section-p1 container">
