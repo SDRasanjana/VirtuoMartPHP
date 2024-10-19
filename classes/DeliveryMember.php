@@ -25,14 +25,14 @@ class DeliveryMember extends User {
 
         return false;
     }
-
+    //function to update order state
     public function updateOrderState($order_id, $state) {
         $conn = $this->db->getConnection();
         $stmt = $conn->prepare("UPDATE orders SET status = ? WHERE id = ?");
         $stmt->bind_param('si', $state, $order_id);
         return $stmt->execute();
     }
-
+    //function to ger the total orders by state
     public function getOrderCountByState($state) {
         $conn = $this->db->getConnection();
         $stmt = $conn->prepare("SELECT COUNT(*) as count FROM orders WHERE status = ?");
@@ -41,5 +41,15 @@ class DeliveryMember extends User {
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
         return $row['count'];
+    }
+    //function to get all orders
+    public function getAllOrders() {
+        $conn = $this->db->getConnection();
+        $stmt = $conn->prepare("SELECT o.id as order_id, o.customer_id, o.order_date, o.total_amount, o.status as order_status 
+                                FROM orders o 
+                                ORDER BY o.id DESC");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 }
