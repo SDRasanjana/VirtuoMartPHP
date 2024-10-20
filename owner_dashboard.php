@@ -118,6 +118,42 @@ if (!isset($_SESSION['is_owner']) || $_SESSION['is_owner'] !== true) {
                         ?>
                     </tbody>
                 </table>
+                <div class="section-header">
+                    <h2>Feedback Details</h2>
+                </div>
+                <table id="feedback">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Subject</th>
+                            <th>Message</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        require_once './DbConnector.php';
+                        $dbconnector = new DbConnector();
+                        $con = $dbconnector->getConnection();
+
+                        // read all rows from product table
+                        $sql = "SELECT * FROM feedback";
+                        $result = $con->query($sql);
+
+                        if (!$result) {
+                            die("Invalid query: " . $con->errorInfo());
+                        }
+                        // table data
+                        while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                            echo "<tr>
+                        <td>" . $row["name"] . "</td>
+                        <td>" . $row["subject"] . "</td>
+                        <td>" . $row["message"] . "</td>
+                        </tr>";
+                        }
+
+                        ?>
+                    </tbody>
+                </table>
             </div>
             <div class="col-md-4">
                 <div class="chat-container">
@@ -164,7 +200,7 @@ if (!isset($_SESSION['is_owner']) || $_SESSION['is_owner'] !== true) {
                     <!-- Reply form for the owner -->
                     <form method="POST" action="">
                         <label>Enter your reply:</label>
-                        <input type="text" name="message"  placeholder="Type your message" required>
+                        <input type="text" name="message" placeholder="Type your message" required>
                         <button type="submit" style="color: white; background-color:#0066ff">Reply</button>
                     </form>
 

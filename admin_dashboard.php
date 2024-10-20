@@ -536,12 +536,37 @@ if (isset($_GET['activate_customer_id'])) {
                 <thead>
                     <tr>
                         <th>Order ID</th>
+                        <th>Customer Name</th>
                         <th>Payment Date</th>
-                        <th>Payment Method</th>
+                        <th>Amount</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Payment data will go here -->
+                <?php
+                    $sql = "SELECT 
+    o.id AS order_id,
+    rc.name AS customer_name,
+    o.order_date,
+    o.total_amount
+FROM 
+    orders o
+JOIN 
+    registered_customer rc ON o.customer_id = rc.id;";
+                    $result = $con->query($sql);
+
+                    if (!$result) {
+                        die("Invalid query: " . $con->errorInfo()[2]);
+                    }
+
+                    while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                        echo "<tr>
+                            <td>" . htmlspecialchars($row["order_id"]) . "</td>
+                            <td>" . htmlspecialchars($row["customer_name"]) . "</td>
+                            <td>" . htmlspecialchars($row["order_date"]) . "</td>
+                             <td>" . htmlspecialchars($row["total_amount"]) . "</td>
+                            </tr>";
+                    }
+                    ?> 
                 </tbody>
             </table>
         </div>

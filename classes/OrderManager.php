@@ -4,9 +4,11 @@ require_once 'classes/Order.php';
 
 class OrderManager {
     private $db;
+    private $cart;
 
     public function __construct() {
         $this->db = DatabaseConnection::getInstance()->getConnection();
+        $this->cart = new CartManager();
     }
 
     public function createOrder(Order $order) {
@@ -41,5 +43,11 @@ class OrderManager {
         $stmt = $this->db->prepare("INSERT INTO cash_on_delivery (order_id, customer_name, address, phone_number, total_amount) 
                                     VALUES (:order_id, :customer_name, :address, :phone_number, :total_amount)");
         return $stmt->execute($codDetails);
+    }
+
+    // Define the saveCartToSession method
+    private function saveCartToSession() {
+        // Assuming you want to save the cart object to the session
+        $_SESSION['cart'] = serialize($this->cart);
     }
 }
