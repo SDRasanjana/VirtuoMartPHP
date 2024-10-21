@@ -32,7 +32,7 @@ class ReportGenerator extends FPDF {
         // Top selling items
         $sql = "SELECT p.name, COUNT(*) as quantity, SUM(o.total_amount) as total
             FROM orders o
-            JOIN products p ON o.customer_id = p.id  -- This join might not be accurate, adjust as needed
+            JOIN products p ON o.customer_id = p.id 
             WHERE DATE(o.order_date) = ?
             GROUP BY p.id
             ORDER BY quantity DESC
