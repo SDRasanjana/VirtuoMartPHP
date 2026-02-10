@@ -371,4 +371,4 @@ Project Link: [https://github.com/SDRasanjana/VirtuoMartPHP](https://github.com/
 
 ---
 
-**Note**: This is a educational/demonstration project. For production use, ensure proper security audits, add SSL certificates, implement proper error handling, and follow security best practices.
+**Note**: This is an educational/demonstration project. For production use, ensure proper security audits, add SSL certificates, implement proper error handling, and follow security best practices.
